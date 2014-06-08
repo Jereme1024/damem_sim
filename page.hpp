@@ -107,6 +107,13 @@ public:
 		, page_reposity_(page_scheduler_)
 	{}
 
+	Page_manager(int num_h, int num_w, int size_h, int size_w)
+		: config_num_(num_h, num_w)
+		, config_size_(size_h, size_w)
+		, page_scheduler_(new Scheduler_type<Page>(config_num_.height * config_num_.width))
+		, page_reposity_(page_scheduler_)
+	{}
+
 	void allocate(std::string prefix_name, int h, int w, int size_data)
 	{
 		// size_data is ignored now, it needs to fix later.

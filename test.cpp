@@ -2,6 +2,7 @@
 #include "damemory_test.hpp"
 #include "scheduler_test.hpp"
 #include "page_test.hpp"
+#include "damcb_test.hpp"
 
 int main()
 {
@@ -16,6 +17,10 @@ int main()
 	std::cout << "[ Page test driver ]\n";
 	Page_test<Scheduler_LRU> page_test;
 	page_test.main();
+
+	std::cout << "[ DA memory control block test driver ]\n";
+	DAmemory_control_block_test mcb_test;
+	mcb_test.main();
 
 	return 0;
 }
