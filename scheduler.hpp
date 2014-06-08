@@ -12,6 +12,7 @@ public:
 	virtual void on_schedule(Struct_type *) = 0;
 	virtual void off_schedule(Struct_type *) = 0;
 	virtual void evict_one() = 0;
+	virtual int get_size() = 0;
 };
 
 
@@ -67,6 +68,11 @@ public:
 	void evict_one()
 	{
 		bookkeeping_.pop_back();
+	}
+
+	int get_size()
+	{
+		return bookkeeping_.size();
 	}
 };
 
