@@ -8,9 +8,6 @@ struct config2d
 
 	config2d(const int h, const int w) : height(h), width(w)
 	{}
-
-	config2d(config2d &c) : height(c.height), width(c.width)
-	{}
 };
 
 #endif

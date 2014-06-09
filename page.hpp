@@ -2,6 +2,7 @@
 #define __PAGE_HPP__
 
 #include "config2d.hpp"
+#include "scheduler.hpp"
 
 struct Page
 {
@@ -44,7 +45,9 @@ public:
 		if (!page_scheduler_->is_full())
 		{
 			page_scheduler_->on_schedule(page_new);
-		} else {
+		}
+		else
+		{
 			page_scheduler_->evict_one();
 			page_scheduler_->on_schedule(page_new);
 			cnt_swap_ += 1;
@@ -64,7 +67,9 @@ public:
 		if (page_scheduler_->is_hit(pages_[name]))
 		{
 			page_scheduler_->update(pages_[name]);
-		} else {
+		}
+		else
+		{
 			page_scheduler_->evict_one();
 			page_scheduler_->on_schedule(pages_[name]);
 

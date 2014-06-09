@@ -10,8 +10,9 @@
 #include <algorithm>
 
 #include "config2d.hpp"
-#include "scheduler.hpp"
 #include "page.hpp"
+#include "scheduler.hpp"
+#include "arranger.hpp"
 
 template <class Data_type>
 class Dataset_manager
