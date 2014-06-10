@@ -71,11 +71,11 @@ public:
 		num_page_for_allocation_test(9, 9 * 19, arranger_hyperpadding);
 	}
 
-	void num_page_for_allocation_test(int data_size, int data_width, Arranger *arranger)
+	void num_page_for_allocation_test(int size_data, int data_width, Arranger *arranger)
 	{
-		std::cout << "Testing: data[" << data_width << " / " << data_size << "]\n";
-		std::cout << "#data_per_page = " << arranger->get_num_data_per_page(data_size) << "\n";
-		std::cout << "#page_per_data2d = " << arranger->get_num_page_per_data2d(data_width, data_size) << "\n";
+		std::cout << "Testing: data[" << data_width << " / " << size_data << "]\n";
+		std::cout << "#data_per_page = " << arranger->get_num_w_data_per_page(size_data) << "\n";
+		std::cout << "#page_per_data2d = " << arranger->get_num_w_page_per_data2d(data_width, size_data) << "\n";
 	}
 };
 

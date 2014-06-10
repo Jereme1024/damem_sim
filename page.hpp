@@ -12,7 +12,6 @@ struct Page
 		: name_(name)
 	{}
 
-
 	~Page()
 	{
 		std::cerr << "Page destructer!";
@@ -36,12 +35,13 @@ public:
 		, cnt_swap_(0)
 	{}
 
-	void allocate(std::string prefix, int index)
+	void allocate(std::string prefix, int h, int w)
 	{
-		std::string name_new = prefix + "." + std::to_string(index);
+		auto name_new = name_encoding(prefix, h, w);
 		Page *page_new = new Page(name_new);
 
 		pages_.insert(std::pair<std::string, Page *>(name_new, page_new));
+
 		if (!page_scheduler_->is_full())
 		{
 			page_scheduler_->on_schedule(page_new);
@@ -54,8 +54,10 @@ public:
 		}
 	}
 
-	void access(std::string name)
+	void access(std::string prefix, int h, int w)
 	{
+		auto name = name_encoding(prefix, h, w);
+
 		if (pages_.find(name) == pages_.end())
 		{
 			std::cerr << "This data named " << name << " is not exist!\n";
@@ -91,6 +93,11 @@ public:
 	{
 		return pages_.size();
 	}
+
+	std::string name_encoding(std::string &prefix, int h, int w)
+	{
+		return std::string(prefix + "." + std::to_string(h) + "," + std::to_string(w));
+	}
 };
 
 
@@ -99,42 +106,39 @@ class Page_manager
 {
 private:
 	config2d config_num_;
-	config2d config_size_;
 
 	Scheduler<Page> *page_scheduler_;
 	Page_reposity page_reposity_;
 
 public:
-	Page_manager(config2d &config_num, config2d &config_size)
+	Page_manager(config2d &config_num)
 		: config_num_(config_num)
-		, config_size_(config_size)
 		, page_scheduler_(new Scheduler_type<Page>(config_num.height * config_num.width))
 		, page_reposity_(page_scheduler_)
 	{}
 
-	Page_manager(int num_h, int num_w, int size_h, int size_w)
+	Page_manager(int num_h, int num_w)
 		: config_num_(num_h, num_w)
-		, config_size_(size_h, size_w)
 		, page_scheduler_(new Scheduler_type<Page>(config_num_.height * config_num_.width))
 		, page_reposity_(page_scheduler_)
 	{}
 
-	void allocate(std::string prefix_name, int h, int w, int size_data)
+	void allocate(std::string prefix_name, int num_row, int num_col)
 	{
-		// size_data is ignored now, it needs to fix later.
-		const int num_row = (int)std::ceil((double)h / config_size_.height);
-		const int num_col = (int)std::ceil((double)w / config_size_.width);
 		const int num_total = num_row * num_col;
 
-		for (int i = 0; i < num_total; i++)
+		for (int r = 0; r < num_row; r++)
 		{
-			page_reposity_.allocate(prefix_name, i);
+			for (int c = 0; c < num_col; c++)
+			{
+				page_reposity_.allocate(prefix_name, r, c);
+			}
 		}
 	}
 
-	void access(std::string name)
+	void access(std::string prefix, int h, int w)
 	{
-		page_reposity_.access(name);
+		page_reposity_.access(prefix, h, w);
 	}
 
 	int get_num_page()

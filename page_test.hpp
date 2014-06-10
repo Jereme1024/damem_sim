@@ -13,28 +13,27 @@ public:
 	void main()
 	{
 		config2d config_num = {.height = 2, .width = 3};
-		config2d config_size = {.height = 3, .width = 3};
 		
-		pm = new Page_manager<Scheduler_type>(config_num, config_size);
+		pm = new Page_manager<Scheduler_type>(config_num);
 
 		show_status(pm, "initial");
 
-		pm->allocate("test1", 3, 3, 0);
-		show_status(pm, "size = 1");
+		pm->allocate("test1", 1, 1);
+		show_status(pm, "size += 1");
 
-		pm->allocate("test2", 1, 3, 0);
-		show_status(pm, "size = 2");
+		pm->allocate("test2", 1, 1);
+		show_status(pm, "size += 1");
 
-		pm->allocate("test3", 6, 8, 0);
-		show_status(pm, "size = 8, swap += 2");
+		pm->allocate("test3", 2, 3);
+		show_status(pm, "size += 6, swap += 2");
 
-		pm->access("test3.5");
+		pm->access("test3", 1, 2);
 		show_status(pm, "access++");
-		pm->access("test1.0");
+		pm->access("test1", 0, 0);
 		show_status(pm, "access++, swap++");
-		pm->access("test1.1"); // not exist
-		pm->access("test999.0"); // not exist
-		show_status(pm, "values no change");
+		pm->access("test1", 1, 1); // not exist, just test the warning
+		pm->access("test999", 0, 0); // not exist, just test the warning
+		show_status(pm, "values does not change");
 	}
 
 	void show_status(Page_manager<Scheduler_type> *pm, std::string msg)

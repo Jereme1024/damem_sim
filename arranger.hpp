@@ -40,17 +40,25 @@ public:
 		return get_page_width() / get_dataset_width();
 	}
 
-	int get_num_page_per_data2d(int w, int data_size)
+	int get_num_w_page_per_data2d(int w, int size_data)
 	{
-		return (int)std::ceil((double)(w / data_size) / get_num_data_per_page(data_size));
+		return (int)std::ceil((double)(w / size_data) / get_num_w_data_per_page(size_data));
 	}
 
-	virtual int get_num_data_per_page(int data_size) = 0;
+	int get_num_h_page_per_data2d(int h, int size_data)
+	{
+		return (int)std::ceil((double)(h / size_data));
+	}
 
-	//virtual int get_page_index(int y, int x, int data_size) = 0;
-	//virtual int get_dataset_base(int y, int x, int data_size) = 0;
-	//virtual int get_dataset_offset(int y, int x, int data_size) = 0;
-	//virtual void data_query(...) = 0;
+	int get_num_h_data_per_page(int size_data)
+	{
+		return get_page_height() / get_dataset_height();
+	}
+
+	virtual int get_num_w_data_per_page(int size_data) = 0;
+
+	//virtual int get_dataset_base(int y, int x, int size_data) = 0;
+	//virtual int get_dataset_offset(int y, int x, int size_data) = 0;
 };
 
 class Arranger_padding : public Arranger
@@ -60,9 +68,9 @@ public:
 		: Arranger(c_dataset, c_page)
 	{}
 
-	int get_num_data_per_page(int data_size)
+	int get_num_w_data_per_page(int size_data)
 	{
-		const int num_dataset_per_data = (int)std::ceil((double)data_size / get_dataset_width());
+		const int num_dataset_per_data = (int)std::ceil((double)size_data / get_dataset_width());
 		const int num_data_per_page =  (int)std::floor((double)get_num_dataset_per_page() / num_dataset_per_data);
 		return num_data_per_page;
 	}
@@ -75,9 +83,9 @@ public:
 		: Arranger(c_dataset, c_page)
 	{}
 
-	int get_num_data_per_page(int data_size)
+	int get_num_w_data_per_page(int size_data)
 	{
-		const int num_data_per_page = (int)std::floor((double)get_page_width() / data_size);
+		const int num_data_per_page = (int)std::floor((double)get_page_width() / size_data);
 		return num_data_per_page;
 	}
 };
@@ -89,17 +97,17 @@ public:
 		: Arranger(c_dataset, c_page)
 	{}
 
-	int get_num_data_per_page(int data_size)
+	int get_num_w_data_per_page(int size_data)
 	{
-		if (data_size <= get_dataset_width())
+		if (size_data <= get_dataset_width())
 		{
-			double num_data_per_dataset = std::floor((double)get_dataset_width() / data_size);
+			const double num_data_per_dataset = std::floor((double)get_dataset_width() / size_data);
 			const int num_data_per_page = num_data_per_dataset * get_num_dataset_per_page();
 			return num_data_per_page;
 		}
 		else
 		{
-			double num_dataset_per_data = std::ceil((double)data_size / get_dataset_width());
+			const double num_dataset_per_data = std::ceil((double)size_data / get_dataset_width());
 			const int num_data_per_page = (int)std::floor((double)get_num_dataset_per_page() / num_dataset_per_data);
 			return num_data_per_page;
 		}

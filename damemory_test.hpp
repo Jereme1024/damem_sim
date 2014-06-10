@@ -3,6 +3,7 @@
 
 #include "damemory.hpp"
 #include "page.hpp"
+#include "arranger.hpp"
 
 class DAmemory_test_create
 {
@@ -16,7 +17,7 @@ public:
 		const int h_dataset = 1;
 		const int w_dataset = 8;
 
-		DAmemory<Scheduler_LRU>(h_mem, w_mem, h_page, w_page, h_dataset, w_dataset);
+		DAmemory<Arranger_padding, Scheduler_LRU>(h_mem, w_mem, h_page, w_page, h_dataset, w_dataset);
 	}
 };
 
