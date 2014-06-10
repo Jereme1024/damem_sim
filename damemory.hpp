@@ -68,7 +68,7 @@ public:
 	
 	void write(int y, int x)
 	{
-		std::cout << "write data[" << y << "][" << x << "]\n";
+		//std::cout << "write data[" << y << "][" << x << "]\n";
 
 		if (y >= config_size_.height || x >= config_size_.width)
 		{
@@ -80,7 +80,7 @@ public:
 
 	void load(int y, int x)
 	{
-		std::cout << "load data[" << y << "][" << x << "]\n";
+		//std::cout << "load data[" << y << "][" << x << "]\n";
 
 		if (y >= config_size_.height || x >= config_size_.width)
 		{
@@ -102,6 +102,7 @@ private:
 	Arranger_type arranger_;
 	Page_manager<Scheduler_type> page_manager_;
 	int total_data_size_;
+	int cnt_dataset_access_;
 
 	typedef DAmemory_control_block<Arranger_type, Scheduler_type> DAmcb;
 
@@ -111,8 +112,9 @@ public:
 		, config_da_page_(h_page, w_page)
 		, config_da_dataset_(h_dataset, w_dataset)
 		, arranger_(config_da_dataset_, config_da_page_)
-		, page_manager_(h_page / h_dataset, w_page / w_dataset) // #height, #width
+		, page_manager_(h_mem / h_page, w_mem / w_page) // #height, #width
 		, total_data_size_(0)
+		, cnt_dataset_access_(0)
 	{}
 
 	DAmemory(config2d &mem, config2d &page, config2d &dataset)
@@ -120,16 +122,14 @@ public:
 		, config_da_page_(page)
 		, config_da_dataset_(dataset)
 		, arranger_(config_da_dataset_, config_da_page_)
-		, page_manager_(page.height / dataset.height, page.width / dataset.height) // #height, #width
+		, page_manager_(mem.height / page.height, mem.width / page.height)
 		, total_data_size_(0)
+		, cnt_dataset_access_(0)
 	{}
 
 	DAmcb allocate(std::string prefix, int h, int w, int size_data)
 	{
-		std::cout << "allocate a data having size = " << size_data
-				  << " with h = " << h << " w = " << w << "\n";
-
-		total_data_size_ += h * w;
+		total_data_size_ += h * w * size_data;
 		
 		const int num_h = arranger_.get_num_h_page_per_data2d(h, size_data);
 		const int num_w = arranger_.get_num_w_page_per_data2d(w, size_data);
@@ -144,9 +144,10 @@ public:
 		const int py = get_page_y(y, size_data);
 		const int px = get_page_x(x, size_data);
 
-		std::cout << "DAmemory access " << prefix << " in page " << py << ", " << px << "\n";
+		//std::cout << "DAmemory access " << prefix << " in page " << py << ", " << px << "\n";
 
 		page_manager_.access(prefix, py, px);
+		cnt_dataset_access_ += arranger_.get_cnt_access(y, x, size_data);
 	}
 
 	int get_page_y(const int y, const int size_data)
@@ -159,6 +160,30 @@ public:
 	{
 		const int pw = arranger_.get_num_w_data_per_page(size_data);
 		return (int)std::floor((double)x / pw);
+	}
+
+	void report()
+	{
+		const int total_mem = config_da_mem_.height * config_da_mem_.width / 1024 / 1024;
+		const int each_page = config_da_page_.height * config_da_page_.width;
+		const int total_page = each_page * page_manager_.get_num_page();
+
+		std::cout << "[ DA memory " << config_da_mem_.height << " B x " << config_da_mem_.width << " B, " << total_mem << " MB ]\n";
+
+		std::cout << "= Configuration =\n";
+		std::cout << "Page size: " << config_da_page_.height << " B x " << config_da_page_.width << " B\n";
+		std::cout << "Dataset size: " << config_da_dataset_.height << " B x " << config_da_dataset_.width << " B\n";
+		std::cout << "Arrangement policy: " << arranger_.get_name() << "\n";
+		std::cout << "Schedule policy: " << page_manager_.get_scheduler_name() << "\n";
+
+		std::cout << "= Statistics =\n";
+		std::cout << "Total data allocation: " << total_data_size_ << " B\n";
+		std::cout << "Total #page allocation: " << page_manager_.get_num_page() << "\n";
+		std::cout << "Memory usage: " << total_data_size_ << " / "
+				  << total_page << " (" << ((double)total_data_size_ / total_page) << ")\n";
+		std::cout << "Memory access count: " << page_manager_.get_cnt_access() << "\n";
+		std::cout << "Memory dataset access count: " << cnt_dataset_access_ << "\n";
+		std::cout << "Memory page swap count: " << page_manager_.get_cnt_swap() << "\n";
 	}
 };
 #endif

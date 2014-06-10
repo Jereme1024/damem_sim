@@ -1,6 +1,9 @@
 #ifndef __PAGE_HPP__
 #define __PAGE_HPP__
 
+#include <string>
+#include <map>
+
 #include "config2d.hpp"
 #include "scheduler.hpp"
 
@@ -74,7 +77,6 @@ public:
 		{
 			page_scheduler_->evict_one();
 			page_scheduler_->on_schedule(pages_[name]);
-
 			cnt_swap_ += 1;
 		}
 	}
@@ -159,6 +161,11 @@ public:
 	int get_on_schedule()
 	{
 		return page_scheduler_->get_size();
+	}
+
+	char *get_scheduler_name()
+	{
+		return page_scheduler_->get_name();
 	}
 };
 

@@ -31,6 +31,7 @@ public:
 		show_status(pm, "access++");
 		pm->access("test1", 0, 0);
 		show_status(pm, "access++, swap++");
+		std::cout << "not exist test\n";
 		pm->access("test1", 1, 1); // not exist, just test the warning
 		pm->access("test999", 0, 0); // not exist, just test the warning
 		show_status(pm, "values does not change");

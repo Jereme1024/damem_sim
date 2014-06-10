@@ -22,6 +22,7 @@ public:
 		int matrix[20][10];
 
 		auto mcb_matrix = damemory.allocate("matrix", 20, 10, sizeof(int));
+		std::cout << "** not exist test\n";
 		mcb_matrix.write(20, 10);
 		mcb_matrix.load(10, 10);
 	}

@@ -1,6 +1,8 @@
 #ifndef __ARRANGER_HPP__
 #define __ARRANGER_HPP__
 
+#include <cmath>
+
 #include "config2d.hpp"
 
 class Arranger
@@ -42,12 +44,12 @@ public:
 
 	int get_num_w_page_per_data2d(int w, int size_data)
 	{
-		return (int)std::ceil((double)(w / size_data) / get_num_w_data_per_page(size_data));
+		return (int)std::ceil((double)w / get_num_w_data_per_page(size_data));
 	}
 
 	int get_num_h_page_per_data2d(int h, int size_data)
 	{
-		return (int)std::ceil((double)(h / size_data));
+		return (int)std::ceil((double)h / get_page_height());
 	}
 
 	int get_num_h_data_per_page(int size_data)
@@ -56,7 +58,8 @@ public:
 	}
 
 	virtual int get_num_w_data_per_page(int size_data) = 0;
-
+	virtual int get_cnt_access(int y, int x, int size_data) = 0;
+	virtual char *get_name() = 0;
 	//virtual int get_dataset_base(int y, int x, int size_data) = 0;
 	//virtual int get_dataset_offset(int y, int x, int size_data) = 0;
 };
@@ -74,6 +77,17 @@ public:
 		const int num_data_per_page =  (int)std::floor((double)get_num_dataset_per_page() / num_dataset_per_data);
 		return num_data_per_page;
 	}
+
+	int get_cnt_access(int y, int x, int size_data)
+	{
+		const int cnt_access = (int)std::ceil((double)size_data / get_dataset_width());
+		return cnt_access;
+	}
+
+	char *get_name()
+	{
+		return (char *)"padding";
+	}
 };
 
 class Arranger_concatenating : public Arranger
@@ -87,6 +101,27 @@ public:
 	{
 		const int num_data_per_page = (int)std::floor((double)get_page_width() / size_data);
 		return num_data_per_page;
+	}
+
+	int get_cnt_access(int y, int x, int size_data)
+	{
+		//const int cnt_access = (int)std::ceil((double)size_data / get_dataset_width());
+		
+		int offset_in_a_page = x % get_num_w_data_per_page(size_data);
+		int byte_start = offset_in_a_page * size_data;
+		int byte_end = byte_start + (size_data - 1);
+
+		int ds_start = byte_start / get_dataset_width();
+		int ds_end = byte_end / get_dataset_width();
+
+		const int cnt_access = ds_end - ds_start + 1;
+		
+		return cnt_access;
+	}
+
+	char *get_name()
+	{
+		return (char *)"concatenating";
 	}
 };
 
@@ -111,6 +146,17 @@ public:
 			const int num_data_per_page = (int)std::floor((double)get_num_dataset_per_page() / num_dataset_per_data);
 			return num_data_per_page;
 		}
+	}
+
+	int get_cnt_access(int y, int x, int size_data)
+	{
+		const int cnt_access = (int)std::ceil((double)size_data / get_dataset_width());
+		return cnt_access;
+	}
+
+	char *get_name()
+	{
+		return (char *)"hyperpadding";
 	}
 };
 

@@ -75,7 +75,7 @@ public:
 	{
 		std::cout << "Testing: data[" << data_width << " / " << size_data << "]\n";
 		std::cout << "#data_per_page = " << arranger->get_num_w_data_per_page(size_data) << "\n";
-		std::cout << "#page_per_data2d = " << arranger->get_num_w_page_per_data2d(data_width, size_data) << "\n";
+		std::cout << "#page_per_data2d = " << arranger->get_num_w_page_per_data2d(data_width / size_data, size_data) << "\n";
 	}
 };
 

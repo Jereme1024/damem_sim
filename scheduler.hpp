@@ -5,7 +5,6 @@ template <class Struct_type>
 class Scheduler
 {
 public:
-
 	virtual bool is_full() = 0;
 	virtual bool is_hit(Struct_type *) = 0;
 	virtual void update(Struct_type *) = 0;
@@ -13,6 +12,7 @@ public:
 	virtual void off_schedule(Struct_type *) = 0;
 	virtual void evict_one() = 0;
 	virtual int get_size() = 0;
+	virtual char *get_name() = 0;
 };
 
 
@@ -73,6 +73,11 @@ public:
 	int get_size()
 	{
 		return bookkeeping_.size();
+	}
+
+	char *get_name()
+	{
+		return (char *)"LRU";
 	}
 };
 

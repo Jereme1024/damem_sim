@@ -10,13 +10,9 @@
 
 int main()
 {
-	std::cout << "\n[ Config 2D test driver ]\n";
-	Config2d_test config2d_test;
-	config2d_test.main();
-
 	std::cout << "\n[ DA memory test driver ]\n";
-	DAmemory_test_create damemory_test_create;
-	damemory_test_create.main();
+	DAmemory_test damemory_test;
+	damemory_test.main();
 
 	std::cout << "\n[ Scheduler test driver ]\n";
 	Scheduler_test<Scheduler_LRU, Page> scheduler_test;
