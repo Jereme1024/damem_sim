@@ -3,8 +3,8 @@
 
 #include <iostream>
 
-#include "damemory.hpp"
-#include "arranger.hpp"
+#include "../include/damemory.hpp"
+#include "../include/arranger.hpp"
 
 class Arranger_test
 {

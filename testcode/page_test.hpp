@@ -1,8 +1,8 @@
 #ifndef __PAGE_TEST_HPP__
 #define __PAGE_TEST_HPP__
 
-#include "damemory.hpp"
-#include "page.hpp"
+#include "../include/damemory.hpp"
+#include "../include/page.hpp"
 
 template <template <class> class Scheduler_type>
 class Page_test

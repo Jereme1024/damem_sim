@@ -14,31 +14,6 @@
 #include "scheduler.hpp"
 #include "arranger.hpp"
 
-template <class Data_type>
-class Dataset_manager
-{
-private:
-	config2d config_da_dataset;
-	int cnt_access;
-
-public:
-	Dataset_manager(config2d &config) 
-		: config_da_dataset(config)
-		, cnt_access(0)
-	{}
-
-	void access(int row, int col)
-	{
-		std::cerr << "This data needs " << access_calc() << " access\n";
-		cnt_access += access_calc();
-	}
-
-	int access_calc(int row, int col)
-	{
-		return 1;
-	}
-};
-
 template<class Arranger_type, template <class> class Scheduler_type>
 class DAmemory;
 
@@ -68,8 +43,6 @@ public:
 	
 	void write(int y, int x)
 	{
-		//std::cout << "write data[" << y << "][" << x << "]\n";
-
 		if (y >= config_size_.height || x >= config_size_.width)
 		{
 			std::cerr << "Out of memory access!\n";
@@ -80,8 +53,6 @@ public:
 
 	void load(int y, int x)
 	{
-		//std::cout << "load data[" << y << "][" << x << "]\n";
-
 		if (y >= config_size_.height || x >= config_size_.width)
 		{
 			std::cerr << "Out of memory access!\n";
@@ -143,8 +114,6 @@ public:
 	{
 		const int py = get_page_y(y, size_data);
 		const int px = get_page_x(x, size_data);
-
-		//std::cout << "DAmemory access " << prefix << " in page " << py << ", " << px << "\n";
 
 		page_manager_.access(prefix, py, px);
 		cnt_dataset_access_ += arranger_.get_cnt_access(y, x, size_data);

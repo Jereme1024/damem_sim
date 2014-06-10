@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "config2d_test.hpp"
-#include "damemory.hpp"
 #include "damemory_test.hpp"
 #include "scheduler_test.hpp"
 #include "page_test.hpp"

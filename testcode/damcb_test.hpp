@@ -1,9 +1,9 @@
 #ifndef __DAMCB_TEST_HPP__
 #define __DAMCB_TEST_HPP__
 
-#include "damemory.hpp"
-#include "page.hpp"
-#include "arranger.hpp"
+#include "../include/damemory.hpp"
+#include "../include/page.hpp"
+#include "../include/arranger.hpp"
 
 class DAmemory_control_block_test
 {

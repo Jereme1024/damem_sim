@@ -1,7 +1,7 @@
 #ifndef __SCHEDULER_TEST_HPP__
 #define __SCHEDULER_TEST_HPP__
 
-#include "damemory.hpp"
+#include "../include/damemory.hpp"
 
 template <template <class> class Scheduler_type, class Struct_type>
 class Scheduler_test

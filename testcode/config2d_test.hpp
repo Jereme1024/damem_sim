@@ -1,7 +1,7 @@
 #ifndef __CONFIG2D_TEST_HPP__
 #define __CONFIG2D_TEST_HPP__
 
-#include "config2d.hpp"
+#include "../include/config2d.hpp"
 
 class Config2d_test
 {

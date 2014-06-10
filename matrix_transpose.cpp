@@ -2,8 +2,8 @@
 #include <vector>
 #include <iomanip>
 
-#include "matrix.hpp"
-#include "damemory.hpp"
+#include "include/matrix.hpp"
+#include "include/damemory.hpp"
 
 
 template <class Data_type>

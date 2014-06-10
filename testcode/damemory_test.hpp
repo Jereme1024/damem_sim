@@ -1,9 +1,9 @@
 #ifndef __DAMEMORY_TEST_HPP__
 #define __DAMEMORY_TEST_HPP__
 
-#include "damemory.hpp"
-#include "page.hpp"
-#include "arranger.hpp"
+#include "../include/damemory.hpp"
+#include "../include/page.hpp"
+#include "../include/arranger.hpp"
 
 class DAmemory_test
 {
@@ -26,6 +26,7 @@ public:
 		mcb_matrix.write(10, 10);
 		mcb_matrix.load(0, 0);
 
+		std::cout << "matrix[64][100]\n";
 		std::cout << "\n";
 		damemory.report();
 	}
