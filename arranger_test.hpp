@@ -77,6 +77,36 @@ public:
 		std::cout << "#data_per_page = " << arranger->get_num_w_data_per_page(size_data) << "\n";
 		std::cout << "#page_per_data2d = " << arranger->get_num_w_page_per_data2d(data_width / size_data, size_data) << "\n";
 	}
+
+	void explore()
+	{
+		config2d c_page = {16, 64};
+		for (int ds = 8; ds <= 16; ds *= 2)
+		{
+			config2d c_dataset = {1, ds};
+			for (int round = 0; round < 3; round++)
+			{
+				std::cout << "round = " << round << "\n";
+				Arranger *arranger;
+				for (int size_data = 1; size_data <= 16; size_data++)
+				{
+					if (round == 0)
+						arranger = new Arranger_padding(c_dataset, c_page);
+					else if (round == 1)
+						arranger = new Arranger_concatenating(c_dataset, c_page);
+					else
+						arranger = new Arranger_hyperpadding(c_dataset, c_page);
+
+					std::cout << arranger->get_num_w_page_per_data2d(55, size_data) << ",";
+				}
+				std::cout << "\n";
+			}
+			std::cout << "\n";
+		}
+		std::cout << "\n";
+
+
+	}
 };
 
 #endif

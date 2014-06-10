@@ -12,12 +12,12 @@ void transpose(Matrix<Data_type> &ma, Matrix<Data_type> &mb)
 	// DA memory create
 	const int h_mem = 32 * 32 * 32;
 	const int w_mem = 32 * 32 * 32;;
-	const int h_page = 1 * 32;
+	const int h_page = 1 * 16;
 	const int w_page = 4 * 32;
 	const int h_dataset = 1;
 	const int w_dataset = 8;
 
-	DAmemory<Arranger_concatenating, Scheduler_LRU> damemory(h_mem, w_mem, h_page, w_page, h_dataset, w_dataset);
+	DAmemory<Arranger_hyperpadding, Scheduler_LRU> damemory(h_mem, w_mem, h_page, w_page, h_dataset, w_dataset);
 
 	// DA memory control block allocate
 	auto mcb_ma = damemory.allocate("ma", ma.size_row(), ma.size_col(), sizeof(Data_type));
@@ -45,15 +45,12 @@ void transpose(Matrix<Data_type> &ma, Matrix<Data_type> &mb)
 	}
 
 	damemory.report();
-
-	//ma.show();
-	//mb.show();
 }
 
 int main()
 {
-	Matrix<int> m1(10, 6);
-	Matrix<int> m2(6, 10);
+	Matrix<int> m1(400, 200);
+	Matrix<int> m2(200, 400);
 
 	for (int i = 0; i < m1.size_row(); i++)
 	{

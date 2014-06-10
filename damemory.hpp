@@ -177,10 +177,8 @@ public:
 		std::cout << "Schedule policy: " << page_manager_.get_scheduler_name() << "\n";
 
 		std::cout << "= Statistics =\n";
-		std::cout << "Total data allocation: " << total_data_size_ << " B\n";
+		//std::cout << "Total data allocation: " << total_data_size_ << " B\n";
 		std::cout << "Total #page allocation: " << page_manager_.get_num_page() << "\n";
-		std::cout << "Memory usage: " << total_data_size_ << " / "
-				  << total_page << " (" << ((double)total_data_size_ / total_page) << ")\n";
 		std::cout << "Memory access count: " << page_manager_.get_cnt_access() << "\n";
 		std::cout << "Memory dataset access count: " << cnt_dataset_access_ << "\n";
 		std::cout << "Memory page swap count: " << page_manager_.get_cnt_swap() << "\n";
