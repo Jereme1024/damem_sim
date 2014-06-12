@@ -1,0 +1,48 @@
+[ Case with max = 1000, width = 4096, sqrtwidth = 64 ]
+
+Run left-looking_cholesky_factorization
+
+real	0m46.453s
+user	0m46.441s
+sys	0m0.024s
+Run lu_decomposition
+
+real	3m58.626s
+user	3m58.717s
+sys	0m0.064s
+Run matrix_chain_order
+
+real	2m30.550s
+user	2m30.584s
+sys	0m0.044s
+Run multiplex
+
+real	16m35.128s
+user	16m35.571s
+sys	0m0.164s
+Run optimal_bst
+
+real	2m11.894s
+user	2m11.918s
+sys	0m0.044s
+Run right-looking_cholesky_factorization
+
+real	3m19.835s
+user	3m19.931s
+sys	0m0.039s
+Run transpose
+
+real	0m0.445s
+user	0m0.421s
+sys	0m0.024s
+Run wavelet_image_compression
+
+real	0m1.511s
+user	0m1.480s
+sys	0m0.032s
+Run wavelet_image_decompression
+
+real	0m1.081s
+user	0m1.049s
+sys	0m0.032s
+

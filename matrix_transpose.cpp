@@ -13,7 +13,7 @@ void transpose(Matrix<Data_type> &ma, Matrix<Data_type> &mb)
 	const int h_mem = 32 * 32 * 32;
 	const int w_mem = 32 * 32 * 32;;
 	const int h_page = 1 * 16;
-	const int w_page = 4 * 32;
+	const int w_page = 8 * 32;
 	const int h_dataset = 1;
 	const int w_dataset = 8;
 
@@ -39,8 +39,8 @@ void transpose(Matrix<Data_type> &ma, Matrix<Data_type> &mb)
 		for (int j = 0; j < ma.size_col(); j++)
 		{
 			mb[j][i] = ma[i][j];
-			mcb_mb.load(j, i);
-			mcb_ma.write(i, j);
+			mcb_ma.load(i, j);
+			mcb_mb.write(j, i);
 		}
 	}
 
@@ -49,8 +49,8 @@ void transpose(Matrix<Data_type> &ma, Matrix<Data_type> &mb)
 
 int main()
 {
-	Matrix<int> m1(400, 200);
-	Matrix<int> m2(200, 400);
+	Matrix<int> m1(1000, 1000);
+	Matrix<int> m2(1000, 1000);
 
 	for (int i = 0; i < m1.size_row(); i++)
 	{
