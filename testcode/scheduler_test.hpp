@@ -2,6 +2,7 @@
 #define __SCHEDULER_TEST_HPP__
 
 #include "../include/damemory.hpp"
+#include <cassert>
 
 template <template <class> class Scheduler_type, class Struct_type>
 class Scheduler_test
@@ -10,60 +11,49 @@ private:
 	static const int max_size = 4;
 	static const int total_size = 6;
 	Scheduler<Struct_type> *scheduler;
-	Page *page[total_size];
 
 public:
-	void main()
+	void LRU_test()
 	{
-		scheduler = new Scheduler_type<Struct_type>(max_size);
+		Scheduler_LRU<Struct_type> lru(max_size);
+		Page *page[total_size];
 
 		for (int i = 0; i < total_size; i++)
 		{
 			std::string name = "tmp." + std::to_string(i);
 			page[i] = new Page(name);
 
-			if (!scheduler->is_full())
-			{
-				scheduler->on_schedule(page[i]);
-			}
+			lru.on_schedule(page[i]);
+			// sched: 5, 4, 3, 2
 		}
-
-		std::cout << "** first max_size is hit\n";
-		check_hits(); // 3, 2, 1, 0
-
-		std::cout << "** page 3~1 is hit\n";
-		scheduler->evict_one(); // 3, 2, 1
-		check_hits();
-		std::cout << "** is_full " << scheduler->is_full() << "\n";
-
-		std::cout << "** page 5,3~1 is hit\n";
-		scheduler->on_schedule(page[5]); // 5, 3, 2, 1
-		check_hits();
 		
-		std::cout << "** warning test\n";
-		scheduler->off_schedule(page[0]);
+		std::cerr << "LRU size test\n";
+		assert (lru.get_size() == max_size);
+		assert (!lru.is_hit(page[0]));
 
-		std::cout << "** page 0,5,3,2 is hit\n";
-		scheduler->evict_one(); // 5, 3 ,2
-		scheduler->on_schedule(page[0]); // 0, 5, 3, 2
-		check_hits();
-
-		std::cout << "** page 2,0,5,3 is hit\n";
-		check_hits(); 
-		scheduler->update(page[2]);
-
-		std::cout << "** page 2,0,5 is hit\n";
-		scheduler->evict_one();
-		check_hits(); 
+		std::cerr << "evict_one() test\n";
+		lru.evict_one();
+		assert (lru.get_size() == (max_size - 1));
+		assert (!lru.is_hit(page[2]));
+		// sched: 5 4 3
+		
+		std::cerr << "off_schedule(...) test\n";
+		lru.off_schedule(page[5]);
+		assert (!lru.is_hit(page[5]));
+		// sched: 4 3
+		
+		std::cerr << "is_hit(...) test\n";
+		lru.is_hit(page[3]);
+		// sched: 3 4
+		lru.evict_one();
+		// sched: 3
+		assert (lru.is_hit(page[3]) && !lru.is_hit(page[4]));
 	}
 
-	void check_hits()
+	void main()
 	{
-		for (int i = 0; i < total_size; i++)
-		{
-			std::cout << "page " + std::to_string(i) + " is_hit " << scheduler->is_hit(page[i]);
-			std::cout << "\n";
-		}
+		scheduler = new Scheduler_type<Struct_type>(max_size); 
+		LRU_test();
 	}
 };
 

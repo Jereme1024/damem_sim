@@ -44,17 +44,6 @@ public:
 		Page *page_new = new Page(name_new);
 
 		pages_.insert(std::pair<std::string, Page *>(name_new, page_new));
-
-		if (!page_scheduler_->is_full())
-		{
-			page_scheduler_->on_schedule(page_new);
-		}
-		else
-		{
-			page_scheduler_->evict_one();
-			page_scheduler_->on_schedule(page_new);
-			cnt_swap_ += 1;
-		}
 	}
 
 	void access(std::string prefix, int h, int w)
@@ -69,15 +58,13 @@ public:
 
 		cnt_access_ += 1;
 
-		if (page_scheduler_->is_hit(pages_[name]))
+		if (!page_scheduler_->is_hit(pages_[name]))
 		{
-			page_scheduler_->update(pages_[name]);
-		}
-		else
-		{
-			page_scheduler_->evict_one();
+			if (page_scheduler_->is_full())
+			{
+				cnt_swap_ += 1;
+			}
 			page_scheduler_->on_schedule(pages_[name]);
-			cnt_swap_ += 1;
 		}
 	}
 
