@@ -55,7 +55,7 @@ public:
 	inline void update(Struct_type *page, It_type_book it)
 	{
 		off_schedule(it);
-		on_schedule(page);
+		bookkeeping_.push_front(page); // Do same thing as on_schedule but faster
 	}
 
 	void on_schedule(Struct_type *page)
