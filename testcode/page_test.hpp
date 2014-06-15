@@ -19,18 +19,28 @@ public:
 		show_status(pm, "initial");
 
 		pm->allocate("test1", 1, 1);
-		show_status(pm, "size += 1");
+		show_status(pm, "size = 1");
 
-		pm->allocate("test2", 1, 1);
-		show_status(pm, "size += 1");
+		pm->allocate("test2", 4, 2);
+		show_status(pm, "size = 9");
 
-		pm->allocate("test3", 2, 3);
-		show_status(pm, "size += 6, swap += 2");
+		pm->allocate("test3", 3, 3);
+		show_status(pm, "size = 18");
 
 		pm->access("test3", 1, 2);
 		show_status(pm, "access++");
-		pm->access("test1", 0, 0);
-		show_status(pm, "access++, swap++");
+		pm->access("test2", 0, 0);
+		pm->access("test2", 0, 1);
+		pm->access("test3", 0, 0);
+
+		pm->access("test3", 0, 1);
+		pm->access("test3", 0, 2);
+		pm->access("test3", 1, 0); // swap
+
+		pm->access("test3", 1, 1); // swap
+		pm->access("test3", 1, 2); // swap
+		pm->access("test3", 1, 1);
+		show_status(pm, "access += 9, swap = 3");
 		std::cout << "not exist test\n";
 		pm->access("test1", 1, 1); // not exist, just test the warning
 		pm->access("test999", 0, 0); // not exist, just test the warning

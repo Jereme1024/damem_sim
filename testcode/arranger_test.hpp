@@ -2,6 +2,7 @@
 #define __ARRANGER_TEST_HPP__
 
 #include <iostream>
+#include <cassert>
 
 #include "../include/damemory.hpp"
 #include "../include/arranger.hpp"
@@ -13,6 +14,7 @@ public:
 	{
 		config2d c_dataset = {1, 8};
 		config2d c_page = {8, 32};
+
 		Arranger *arranger_padding = new Arranger_padding(c_dataset, c_page);
 		Arranger *arranger_concatenating = new Arranger_concatenating(c_dataset, c_page);
 		Arranger *arranger_hyperpadding = new Arranger_hyperpadding(c_dataset, c_page);
@@ -22,60 +24,118 @@ public:
 		std::cout << "page_height = " << arranger_padding->get_page_height() << "\n";
 		std::cout << "page_width = " << arranger_padding->get_page_width() << "\n";
 
+		// {[8][8][8][8]} each row, eight row totally
+		//
+		// padding
+		// size_data 3 (0, 2) in 0 page 3 ds 1 access
+		dataset_access_count_test(0, 2, 3, arranger_padding, 1);
+		// size_data 4 (0, 2) in 0 page 3 ds 1 access
+		dataset_access_count_test(0, 2, 4, arranger_padding, 1);
+		// size_data 8 (0, 2) in 0 page 3 ds 1 access
+		dataset_access_count_test(0, 2, 8, arranger_padding, 1);
+		// size_data 9 (0, 2) in 1 page 0 ds 2 access
+		dataset_access_count_test(0, 2, 9, arranger_padding, 2);
+		// size_data 9 (0, 7) in 3 page 1 ds 2 access
+		dataset_access_count_test(0, 7, 9, arranger_padding, 2);
+		// size_data 17 (0, 2) in 2 page 0 ds 3 access
+		dataset_access_count_test(0, 2, 17, arranger_padding, 3);
+
+		// {[8][8][8][8]} each row, eight row totally
+		//
+		// concatenating
+		// size_data 3 (0, 2) in 0 page 0 ds 2 access
+		dataset_access_count_test(0, 2, 3, arranger_concatenating, 2);
+		// size_data 4 (0, 2) in 0 page 1 ds 1 access
+		dataset_access_count_test(0, 2, 4, arranger_concatenating, 1);
+		// size_data 8 (0, 2) in 0 page 2 ds 1 access
+		dataset_access_count_test(0, 2, 8, arranger_concatenating, 1);
+		// size_data 9 (0, 2) in 0 page 3 ds 2 access
+		dataset_access_count_test(0, 2, 9, arranger_concatenating, 2);
+		// size_data 9 (0, 7) in 2 page 1 ds 2 access
+		dataset_access_count_test(0, 7, 9, arranger_concatenating, 2);
+		// size_data 17 (0, 2) in 2 page 0 ds 3 access
+		dataset_access_count_test(0, 2, 17, arranger_concatenating, 3);
+
+		// {[8][8][8][8]} each row, eight row totally
+		//
+		// hyperpadding
+		// size_data 3 (0, 2) in 0 page 1 ds 1 access
+		dataset_access_count_test(0, 2, 3, arranger_hyperpadding, 1);
+		// size_data 4 (0, 2) in 0 page 1 ds 1 access
+		dataset_access_count_test(0, 2, 4, arranger_hyperpadding, 1);
+		// size_data 8 (0, 2) in 0 page 2 ds 1 access
+		dataset_access_count_test(0, 2, 8, arranger_hyperpadding, 1);
+		// size_data 9 (0, 2) in 1 page 0 ds 2 access
+		dataset_access_count_test(0, 2, 9, arranger_hyperpadding, 2);
+		// size_data 9 (0, 7) in 3 page 1 ds 2 access
+		dataset_access_count_test(0, 7, 9, arranger_hyperpadding, 2);
+		// size_data 17 (0, 2) in 2 page 0 ds 3 access
+		dataset_access_count_test(0, 2, 17, arranger_hyperpadding, 3);
+
+
 		std::cout << "\n== Padding ==\n";
 		std::cout << "** 5 pages needed\n";
-		num_page_for_allocation_test(3, 3 * 19, arranger_padding);
+		num_page_for_allocation_test(3, 3 * 19, arranger_padding, 5);
 		std::cout << "** 5 pages needed\n";
-		num_page_for_allocation_test(4, 4 * 19, arranger_padding);
+		num_page_for_allocation_test(4, 4 * 19, arranger_padding, 5);
 		std::cout << "** 5 pages needed\n";
-		num_page_for_allocation_test(5, 5 * 19, arranger_padding);
+		num_page_for_allocation_test(5, 5 * 19, arranger_padding, 5);
 		std::cout << "** 5 pages needed\n";
-		num_page_for_allocation_test(6, 6 * 19, arranger_padding);
+		num_page_for_allocation_test(6, 6 * 19, arranger_padding, 5);
 		std::cout << "** 5 pages needed\n";
-		num_page_for_allocation_test(7, 7 * 19, arranger_padding);
+		num_page_for_allocation_test(7, 7 * 19, arranger_padding, 5);
 		std::cout << "** 5 pages needed\n";
-		num_page_for_allocation_test(8, 8 * 19, arranger_padding);
+		num_page_for_allocation_test(8, 8 * 19, arranger_padding, 5);
 		std::cout << "** 10 pages needed\n";
-		num_page_for_allocation_test(9, 9 * 19, arranger_padding);
+		num_page_for_allocation_test(9, 9 * 19, arranger_padding, 10);
 
 		std::cout << "\n== Concatenating ==\n";
 		std::cout << "** 2 pages needed\n";
-		num_page_for_allocation_test(3, 3 * 19, arranger_concatenating);
+		num_page_for_allocation_test(3, 3 * 19, arranger_concatenating, 2);
 		std::cout << "** 3 pages needed\n";
-		num_page_for_allocation_test(4, 4 * 19, arranger_concatenating);
+		num_page_for_allocation_test(4, 4 * 19, arranger_concatenating, 3);
 		std::cout << "** 4 pages needed\n";
-		num_page_for_allocation_test(5, 5 * 19, arranger_concatenating);
+		num_page_for_allocation_test(5, 5 * 19, arranger_concatenating, 4);
 		std::cout << "** 4 pages needed\n";
-		num_page_for_allocation_test(6, 6 * 19, arranger_concatenating);
+		num_page_for_allocation_test(6, 6 * 19, arranger_concatenating, 4);
 		std::cout << "** 5 pages needed\n";
-		num_page_for_allocation_test(7, 7 * 19, arranger_concatenating);
+		num_page_for_allocation_test(7, 7 * 19, arranger_concatenating, 5);
 		std::cout << "** 5 pages needed\n";
-		num_page_for_allocation_test(8, 8 * 19, arranger_concatenating);
+		num_page_for_allocation_test(8, 8 * 19, arranger_concatenating, 5);
 		std::cout << "** 7 pages needed\n";
-		num_page_for_allocation_test(9, 9 * 19, arranger_concatenating);
+		num_page_for_allocation_test(9, 9 * 19, arranger_concatenating, 7);
 
 		std::cout << "\n== Hyper-padding ==\n";
 		std::cout << "** 3 pages needed\n";
-		num_page_for_allocation_test(3, 3 * 19, arranger_hyperpadding);
+		num_page_for_allocation_test(3, 3 * 19, arranger_hyperpadding, 3);
 		std::cout << "** 3 pages needed\n";
-		num_page_for_allocation_test(4, 4 * 19, arranger_hyperpadding);
+		num_page_for_allocation_test(4, 4 * 19, arranger_hyperpadding, 3);
 		std::cout << "** 5 pages needed\n";
-		num_page_for_allocation_test(5, 5 * 19, arranger_hyperpadding);
+		num_page_for_allocation_test(5, 5 * 19, arranger_hyperpadding, 5);
 		std::cout << "** 5 pages needed\n";
-		num_page_for_allocation_test(6, 6 * 19, arranger_hyperpadding);
+		num_page_for_allocation_test(6, 6 * 19, arranger_hyperpadding, 5);
 		std::cout << "** 5 pages needed\n";
-		num_page_for_allocation_test(7, 7 * 19, arranger_hyperpadding);
+		num_page_for_allocation_test(7, 7 * 19, arranger_hyperpadding, 5);
 		std::cout << "** 5 pages needed\n";
-		num_page_for_allocation_test(8, 8 * 19, arranger_hyperpadding);
+		num_page_for_allocation_test(8, 8 * 19, arranger_hyperpadding, 5);
 		std::cout << "** 10 pages needed\n";
-		num_page_for_allocation_test(9, 9 * 19, arranger_hyperpadding);
+		num_page_for_allocation_test(9, 9 * 19, arranger_hyperpadding, 10);
 	}
 
-	void num_page_for_allocation_test(int size_data, int data_width, Arranger *arranger)
+	void num_page_for_allocation_test(int size_data, int data_width, Arranger *arranger, int answer)
 	{
 		std::cout << "Testing: data[" << data_width << " / " << size_data << "]\n";
 		std::cout << "#data_per_page = " << arranger->get_num_w_data_per_page(size_data) << "\n";
-		std::cout << "#page_per_data2d = " << arranger->get_num_w_page_per_data2d(data_width / size_data, size_data) << "\n";
+		int test = arranger->get_num_w_page_per_data2d(data_width / size_data, size_data);
+		assert (test == answer);
+		std::cout << "#page_per_data2d = " << test << "...PASS\n";
+	}
+
+	void dataset_access_count_test(int y, int x, int size_data, Arranger *arranger, int answer)
+	{
+		int test = arranger->get_cnt_access(y, x, size_data);
+		assert (test == answer);
+		std::cout << "#access = " << arranger->get_cnt_access(y, x, size_data) << "...PASS \n";
 	}
 
 	void explore()

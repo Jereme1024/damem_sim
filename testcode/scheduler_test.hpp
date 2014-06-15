@@ -27,27 +27,31 @@ public:
 			// sched: 5, 4, 3, 2
 		}
 		
-		std::cerr << "LRU size test\n";
+		std::cerr << "LRU size test";
 		assert (lru.get_size() == max_size);
 		assert (!lru.is_hit(page[0]));
+		std::cerr << "...PASS\n";
 
-		std::cerr << "evict_one() test\n";
+		std::cerr << "evict_one() test";
 		lru.evict_one();
 		assert (lru.get_size() == (max_size - 1));
 		assert (!lru.is_hit(page[2]));
 		// sched: 5 4 3
+		std::cerr << "...PASS\n";
 		
-		std::cerr << "off_schedule(...) test\n";
+		std::cerr << "off_schedule(...) test";
 		lru.off_schedule(page[5]);
 		assert (!lru.is_hit(page[5]));
 		// sched: 4 3
+		std::cerr << "...PASS\n";
 		
-		std::cerr << "is_hit(...) test\n";
+		std::cerr << "is_hit(...) test";
 		lru.is_hit(page[3]);
 		// sched: 3 4
 		lru.evict_one();
 		// sched: 3
 		assert (lru.is_hit(page[3]) && !lru.is_hit(page[4]));
+		std::cerr << "...PASS\n";
 	}
 
 	void main()
