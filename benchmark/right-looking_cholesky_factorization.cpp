@@ -17,7 +17,7 @@ int main()
 	const int h_mem = 1 * 16 * 32;
 	const int w_mem = 1 * 16 * 32;;
 	const int h_page = 1 * 4;
-	const int w_page = 4 * 4;
+	const int w_page = 8 * 4;
 	const int h_dataset = 1;
 	const int w_dataset = 8;
 
@@ -67,7 +67,10 @@ int main()
 /////////////// initialization
 	for (i=0; i<WIDTH; i++)
 		for (j=0; j<WIDTH; j++)
+		{
 			A[i*WIDTH+j] = i<j ? i+1 : j+1;
+			m_a.write(i, j);
+		}
 /////////////// print result
 #ifdef PRINT
 	printf("test case: \n");

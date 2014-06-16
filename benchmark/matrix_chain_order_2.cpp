@@ -45,7 +45,7 @@ void Matrix_Chain_Order(int p[],int num)
 	const int h_mem = 1 * 16 * 32;
 	const int w_mem = 1 * 16 * 32;;
 	const int h_page = 1 * 4;
-	const int w_page = 4 * 4;
+	const int w_page = 8 * 4;
 	const int h_dataset = 1;
 	const int w_dataset = 8;
 
@@ -100,6 +100,14 @@ void Matrix_Chain_Order(int p[],int num)
 	//fflush(ofile);
 	//fclose(ofile);
 /////////////// matrix chain order
+
+	for (i = 0; i < WIDTH; i++)
+		for (j = 0; j < WIDTH; j++)
+		{
+			m[i*WIDTH+j] = 0;
+			m_m.write(i, j);
+		}
+
 	for(i = 1; i <= n; i++) 
 	{
 		m[i*WIDTH+i] = 0; 

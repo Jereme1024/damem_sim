@@ -28,7 +28,7 @@ int main()
 	const int h_mem = 1 * 16 * 32;
 	const int w_mem = 1 * 16 * 32;;
 	const int h_page = 1 * 4;
-	const int w_page = 4 * 4;
+	const int w_page = 8 * 4;
 	const int h_dataset = 1;
 	const int w_dataset = 8;
 
@@ -89,7 +89,9 @@ int main()
 	srand(time(0));
 	for(i=1; i<WIDTH; i++)
 		for(j=1;j<WIDTH;j++)
+		{
 			a[i*WIDTH+j] = (int)(rand()%(MAX+1));
+		}
 /* start to the procedure of LU decomposition */
 	for(i=0; i<WIDTH; i++)
 		for(j=0; j<WIDTH;j++)
@@ -98,11 +100,22 @@ int main()
 			U[i*WIDTH+j]=0.0;
 		}
 	for(i=1; i<WIDTH; i++)
+	{
 		L[i*WIDTH+1]=a[i*WIDTH+1];
+		m_a.load(i, 1);
+		m_L.write(i, 1);
+	}
 	for(j=1; j<WIDTH; j++)
+	{
 		U[1*WIDTH+j]=a[1*WIDTH+j]/L[1*WIDTH+1];
+		m_a.load(1, j);
+		m_L.load(1, 1);
+		m_U.write(1, j);
+	}
 	for(j=2; j<WIDTH; j++)
+	{
 		U[j*WIDTH+j]=1.0;
+	}
 /////////////// LU-decomposition kernel
 	MAGIC(3);
 //	for(j=2; j<WIDTH; j++){

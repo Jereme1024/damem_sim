@@ -25,7 +25,7 @@ int main()
 	const int h_mem = 1 * 16 * 32;
 	const int w_mem = 1 * 16 * 32;;
 	const int h_page = 1 * 4;
-	const int w_page = 4 * 4;
+	const int w_page = 8 * 4;
 	const int h_dataset = 1;
 	const int w_dataset = 8;
 
@@ -103,6 +103,8 @@ int main()
 		for (j=0; j<WIDTH; j++)
 		{
 			e[i*(WIDTH+1)+j] = w[i*(WIDTH+1)+j] = 0;
+			m_w.write(i, j);
+			m_e.write(i, j);
 			root[i*WIDTH+j] = 0;
 		}
 /*	for (i=0; i<WIDTH; i++)
