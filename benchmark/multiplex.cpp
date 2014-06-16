@@ -92,16 +92,16 @@ int main()
 			for (k=0; k<WIDTH; k++)
 			{
 				MAGIC(1);
-				J = A[i*WIDTH+k];
+				//#J = A[i*WIDTH+k];
 				m_a.load(i, k);
 				MAGIC(1);
 				MAGIC(2);
-				I += J * B[k*WIDTH+j];
+				//#I += J * B[k*WIDTH+j];
 				m_b.load(k, j);
 				MAGIC(2);
 			}
 			MAGIC(1);
-			C[i*WIDTH+j] = I;	// currently no surport write
+			//#C[i*WIDTH+j] = I;	// currently no surport write
 			m_c.write(i, j);
 			MAGIC(1);
 		}
