@@ -2,6 +2,7 @@
 #define __DAMEMORY_HPP__
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <list>
 #include <string>
@@ -133,15 +134,17 @@ public:
 		return (int)std::floor((double)x / pw);
 	}
 
-	void report()
+	void report(std::string filename = "")
 	{
+		typedef std::pair<std::string, int> sip;
+		std::vector<sip> csv_in;
+
 		const int total_mem = config_da_mem_.height * config_da_mem_.width / 1024 / 1024;
 		const int each_page = config_da_page_.height * config_da_page_.width;
 		const int total_page = each_page * page_manager_.get_num_page();
 
 		std::cout << "[ DA memory " << config_da_mem_.height << " B x " << config_da_mem_.width << " B, "
 				  << total_mem * 1024 << " KB " << total_mem << " MB ]\n";
-
 		std::cout << "= Configuration =\n";
 		std::cout << "Page size: " << config_da_page_.height << " B x " << config_da_page_.width << " B\n";
 		std::cout << "Dataset size: " << config_da_dataset_.height << " B x " << config_da_dataset_.width << " B\n";
@@ -157,6 +160,45 @@ public:
 		std::cout << "Memory access count: " << page_manager_.get_cnt_access() << "\n";
 		std::cout << "Memory dataset access count: " << cnt_dataset_access_ << "\n";
 		std::cout << "Memory page swap count: " << page_manager_.get_cnt_swap() << "\n";
+
+		if (filename != "")
+		{
+			csv_in.push_back(sip("Total #phsical page", page_manager_.get_num_available_page()));
+			csv_in.push_back(sip("Total #data page", page_manager_.get_num_page()));
+			csv_in.push_back(sip("Total data allocation", total_data_size_));
+			csv_in.push_back(sip("Memory access count", page_manager_.get_cnt_access()));
+			csv_in.push_back(sip("Memory dataset access count", cnt_dataset_access_));
+			csv_in.push_back(sip("Memory page swap count", page_manager_.get_cnt_swap()));
+			
+			csv<sip>(filename, csv_in);
+		}
+	}
+
+	template <class Pair_type>
+	void csv(std::string filename, std::vector<Pair_type> csv_in)
+	{
+		if (csv_in.size() == 0) return;
+
+		std::ofstream csv_out(filename);
+		if (csv_out.is_open() == false)
+		{
+			std::cerr << "csv file open failed!\n";
+			return;
+		}
+
+		csv_out << csv_in[0].first;
+		for (int i = 1; i < csv_in.size(); i++)
+		{
+			csv_out << "," << csv_in[i].first;
+		}
+		csv_out << "\n";
+
+		csv_out << csv_in[0].second;
+		for (int i = 1; i < csv_in.size(); i++)
+		{
+			csv_out << "," << csv_in[i].second;
+		}
+		csv_out << "\n";
 	}
 };
 #endif

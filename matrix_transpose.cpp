@@ -44,7 +44,7 @@ void transpose(Matrix<Data_type> &ma, Matrix<Data_type> &mb)
 		}
 	}
 
-	damemory.report();
+	damemory.report("matrix_transpose.csv");
 }
 
 int main()
