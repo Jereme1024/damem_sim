@@ -129,7 +129,7 @@ int main()
 	free(c);
 	free(cp);
 
-	damemory.report();
+	damemory.report("wde.csv");
 
 	return 0;
 }

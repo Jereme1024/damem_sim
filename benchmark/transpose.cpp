@@ -120,6 +120,6 @@ int main()
 	free(A);
 	free(B);
 
-	damemory.report();
+	damemory.report("tp.csv");
 	return 0;
 }

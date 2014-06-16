@@ -129,7 +129,7 @@ int main()
 #endif
 /////////////// free
 	free(A);
-	damemory.report();
+	damemory.report("left.csv");
 	return 0;
 }
 

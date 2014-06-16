@@ -26,7 +26,8 @@ int main()
 	DAmemory<POLICY, Scheduler_LRU> damemory(h_mem, w_mem, h_page, w_page, h_dataset, w_dataset);
 	int i, j, k;
 	int m, n;
-	register int I, J;
+	//#register int I, J;
+	register int I;
 	int *A, *B, *C;
 	//FILE *ofile;
 	m = n = WIDTH;
@@ -135,7 +136,7 @@ int main()
 	free(B);
 	free(C);
 	
-	damemory.report();
+	damemory.report("mul.csv");
 
 	return 0;
 }

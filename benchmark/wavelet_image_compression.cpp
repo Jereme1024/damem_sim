@@ -127,7 +127,7 @@ int main()
 	free(c);
 	free(cp);
 
-	damemory.report();
+	damemory.report("wco.csv");
 
 	return 0;
 }

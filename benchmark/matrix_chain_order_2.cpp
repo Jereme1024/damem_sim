@@ -156,7 +156,7 @@ void Matrix_Chain_Order(int p[],int num)
 	free(m);
 	free(s);
 
-	damemory.report();
+	damemory.report("chain.csv");
 } 
 
 

@@ -194,7 +194,7 @@ int main()
 	free(e);
 	free(w);
 
-	damemory.report();
+	damemory.report("optimal.csv");
 
 	return 0;
 }

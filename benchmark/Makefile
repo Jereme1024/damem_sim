@@ -31,7 +31,7 @@ sqrtwidth=16
 #width=10000
 #sqrtwidth=100
 
-flag=-Wall -O2 -DPOLICY=Arranger_padding
+flag=-Wall -O2 -DPOLICY=Arranger_concatenating
 exe=multiplex transpose matrix_chain_order lu_decomposition optimal_bst \
 wavelet_image_compression wavelet_image_decompression \
 right-looking_cholesky_factorization left-looking_cholesky_factorization

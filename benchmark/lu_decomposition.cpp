@@ -168,7 +168,7 @@ int main()
 	free(a);
 	free(L);
 	free(U);
-	damemory.report();
+	damemory.report("lu.csv");
 	return 0;
 }/*End of main() */
  
