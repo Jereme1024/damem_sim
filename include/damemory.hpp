@@ -107,6 +107,8 @@ public:
 
 		page_manager_.allocate(prefix, num_h, num_w);
 		
+		std::cerr << "allocate page: " << num_h * num_w << "\n";
+		
 		return DAmcb(this, prefix, h, w, size_data);
 	}
 
@@ -137,7 +139,8 @@ public:
 		const int each_page = config_da_page_.height * config_da_page_.width;
 		const int total_page = each_page * page_manager_.get_num_page();
 
-		std::cout << "[ DA memory " << config_da_mem_.height << " B x " << config_da_mem_.width << " B, " << total_mem << " MB ]\n";
+		std::cout << "[ DA memory " << config_da_mem_.height << " B x " << config_da_mem_.width << " B, "
+				  << total_mem * 1024 << " KB " << total_mem << " MB ]\n";
 
 		std::cout << "= Configuration =\n";
 		std::cout << "Page size: " << config_da_page_.height << " B x " << config_da_page_.width << " B\n";
@@ -146,8 +149,11 @@ public:
 		std::cout << "Schedule policy: " << page_manager_.get_scheduler_name() << "\n";
 
 		std::cout << "= Statistics =\n";
-		//std::cout << "Total data allocation: " << total_data_size_ << " B\n";
+		std::cout << "Total data allocation: " << total_data_size_ << " B\n";
+		std::cout << "Total #phsical_page allocation: " << page_manager_.get_num_available_page() << "\n";
 		std::cout << "Total #page allocation: " << page_manager_.get_num_page() << "\n";
+		std::cout << "Memory usage (total / allocated): " << total_data_size_ << " / " << total_page
+				  << ", " << ((double)total_data_size_ / total_page) << "\n";
 		std::cout << "Memory access count: " << page_manager_.get_cnt_access() << "\n";
 		std::cout << "Memory dataset access count: " << cnt_dataset_access_ << "\n";
 		std::cout << "Memory page swap count: " << page_manager_.get_cnt_swap() << "\n";

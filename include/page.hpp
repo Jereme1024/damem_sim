@@ -85,7 +85,8 @@ public:
 
 	std::string name_encoding(std::string &prefix, int h, int w)
 	{
-		return std::string(prefix + "." + std::to_string(h) + "," + std::to_string(w));
+		prefix += "." + std::to_string(h) + "," + std::to_string(w);
+		return prefix;
 	}
 };
 
@@ -96,25 +97,28 @@ class Page_manager
 private:
 	config2d config_num_;
 
+	const int num_availalbe_page_;
 	Scheduler<Page> *page_scheduler_;
 	Page_reposity page_reposity_;
 
 public:
 	Page_manager(config2d &config_num)
 		: config_num_(config_num)
+		, num_availalbe_page_(config_num.height * config_num.width)
 		, page_scheduler_(new Scheduler_type<Page>(config_num.height * config_num.width))
 		, page_reposity_(page_scheduler_)
 	{}
 
 	Page_manager(int num_h, int num_w)
 		: config_num_(num_h, num_w)
+		, num_availalbe_page_(config_num_.height * config_num_.width)
 		, page_scheduler_(new Scheduler_type<Page>(config_num_.height * config_num_.width))
 		, page_reposity_(page_scheduler_)
 	{}
 
 	void allocate(std::string prefix_name, int num_row, int num_col)
 	{
-		const int num_total = num_row * num_col;
+		//const int num_total = num_row * num_col; // depredcated
 
 		for (int r = 0; r < num_row; r++)
 		{
@@ -128,6 +132,11 @@ public:
 	void access(std::string prefix, int h, int w)
 	{
 		page_reposity_.access(prefix, h, w);
+	}
+
+	int get_num_available_page()
+	{
+		return num_availalbe_page_;
 	}
 
 	int get_num_page()

@@ -17,7 +17,7 @@ void transpose(Matrix<Data_type> &ma, Matrix<Data_type> &mb)
 	const int h_dataset = 1;
 	const int w_dataset = 8;
 
-	DAmemory<Arranger_hyperpadding, Scheduler_LRU> damemory(h_mem, w_mem, h_page, w_page, h_dataset, w_dataset);
+	DAmemory<Arranger_padding, Scheduler_LRU> damemory(h_mem, w_mem, h_page, w_page, h_dataset, w_dataset);
 
 	// DA memory control block allocate
 	auto mcb_ma = damemory.allocate("ma", ma.size_row(), ma.size_col(), sizeof(Data_type));
