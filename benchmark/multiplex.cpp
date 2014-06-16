@@ -80,10 +80,8 @@ int main()
 		{
 			I = rand()%(MAX+1);
 			A[i*WIDTH+j] = I;	// currently no surport write
-			m_a.write(i, j);
 			I = rand()%(MAX+1);
 			B[i*WIDTH+j] = I;	// currently no surport write
-			m_b.write(i, j);
 			C[i*WIDTH+j] = 0;	// currently no surport write
 		}
 /////////////// multiplex

@@ -9,8 +9,8 @@ header=magic-instruction.h
 #sqrtwidth=64
 
 max=100
-width=300
-sqrtwidth=17
+width=500
+sqrtwidth=22
 
 #max=100
 #width=256

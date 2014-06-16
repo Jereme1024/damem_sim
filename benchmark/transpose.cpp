@@ -83,7 +83,6 @@ int main()
 			}
 			I = rand()%(MAX+1);
 			A[i*WIDTH+j] = I;	// currently no surport write
-			m_a.write(i, j);
 		}
 /////////////// transpose
 	MAGIC(3);

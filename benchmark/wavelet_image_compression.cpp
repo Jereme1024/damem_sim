@@ -79,15 +79,11 @@ int main()
 		for (i=1; i<=WIDTH; i++)
 		{
 			c[row*WIDTH+i] = c[row*WIDTH+i] / sqrtWIDTH;
-			m_c.load(row * WIDTH / (WIDTH + 1), i);
-			m_c.write(row * WIDTH / (WIDTH + 1), i);
 		}
 	for (column=1; column<=WIDTH; column++)
 		for (i=1; i<=WIDTH; i++)
 		{
 			c[i*WIDTH+column] = c[i*WIDTH+column] / sqrtWIDTH;
-			m_c.load(i * WIDTH / (WIDTH + 1), column);
-			m_c.write(i * WIDTH / (WIDTH + 1), column);
 		}
 /////////////// standard wavelet compression of image (Haar basis)
 	MAGIC(3);

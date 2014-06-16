@@ -102,15 +102,10 @@ int main()
 	for(i=1; i<WIDTH; i++)
 	{
 		L[i*WIDTH+1]=a[i*WIDTH+1];
-		m_a.load(i, 1);
-		m_L.write(i, 1);
 	}
 	for(j=1; j<WIDTH; j++)
 	{
 		U[1*WIDTH+j]=a[1*WIDTH+j]/L[1*WIDTH+1];
-		m_a.load(1, j);
-		m_L.load(1, 1);
-		m_U.write(1, j);
 	}
 	for(j=2; j<WIDTH; j++)
 	{

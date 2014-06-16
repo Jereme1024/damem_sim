@@ -69,7 +69,6 @@ int main()
 		for (j=0; j<WIDTH; j++)
 		{
 			A[i*WIDTH+j] = i<j ? i+1 : j+1;
-			m_a.write(i, j);
 		}
 /////////////// print result
 #ifdef PRINT
