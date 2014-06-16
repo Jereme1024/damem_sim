@@ -138,6 +138,7 @@ void Matrix_Chain_Order(int p[],int num)
 					s[i*WIDTH+j] = k; 
 #endif
 				} 
+				m_m.load(i, j);
 				MAGIC(1);
 			} 
 		} 

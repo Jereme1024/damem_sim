@@ -108,7 +108,7 @@ int main()
 				MAGIC(2);
 				MAGIC(1);
 				A[i*WIDTH+k] -= I;
-				m_a.write(i, j);
+				m_a.write(i, k);
 				MAGIC(1);
 //				A[i*WIDTH+k] = A[i*WIDTH+k] - A[i*WIDTH+j] * A[k*WIDTH+j];
 			}
