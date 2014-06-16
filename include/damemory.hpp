@@ -160,6 +160,7 @@ public:
 		std::cout << "Memory access count: " << page_manager_.get_cnt_access() << "\n";
 		std::cout << "Memory dataset access count: " << cnt_dataset_access_ << "\n";
 		std::cout << "Memory page swap count: " << page_manager_.get_cnt_swap() << "\n";
+		//std::cout << "No used pages count: " << page_manager_.get_cnt_nouse() << "\n";
 
 		if (filename != "")
 		{

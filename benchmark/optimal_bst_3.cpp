@@ -127,7 +127,7 @@ int main()
 #endif
 /////////////// optimal binary search tree
 	MAGIC(3);
-	for (l=2000; l<=n; l++)
+	for (l=1; l<=n; l++)
 		for (i=1; i<=n-l+1; i++)
 		{
 			j = i + l - 1;
