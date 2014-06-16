@@ -1,22 +1,17 @@
-EXEC="left-looking_cholesky_factorization lu_decomposition matrix_chain_order multiplex optimal_bst right-looking_cholesky_factorization transpose wavelet_image_compression wavelet_image_decompression"
+EXEC="transpose multiplex lu_decomposition matrix_chain_order optimal_bst right-looking_cholesky_factorization left-looking_cholesky_factorization wavelet_image_compression wavelet_image_decompression"
 
-echo "== [[ Padding ]] =="
-for EX in $EXEC
-do
-	echo "Run $EX"
-	time padding/$EX
-done
+DIRS="padding concatenating hyperpadding"
 
-echo "== [[ Concatenating ]] =="
-for EX in $EXEC
+for DIR in $DIRS
 do
-	echo "Run $EX"
-	time concatenating/$EX
-done
-
-echo "== [[ Hyperpadding ]] =="
-for EX in $EXEC
-do
-	echo "Run $EX"
-	time hyperpadding/$EX
+	cd $DIR
+	pwd
+	echo "== [[ Case $DIR ]] =="
+	for EX in $EXEC
+	do
+		echo ""
+		echo "-- Run $EX --"
+		time $(pwd)/$EX
+	done
+	cd ..
 done
