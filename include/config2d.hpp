@@ -3,8 +3,8 @@
 
 struct config2d
 {
-	const int height;
-	const int width;
+	int height;
+	int width;
 
 	config2d(const int h, const int w) : height(h), width(w)
 	{}

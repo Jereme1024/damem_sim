@@ -3,7 +3,7 @@
 int main()
 {
 	Arranger_test arranger_test;
-	arranger_test.explore();
+	arranger_test.explore_ds_access();
 
 	return 0;
 }

@@ -200,6 +200,8 @@ public:
 			csv_out << "," << csv_in[i].second;
 		}
 		csv_out << "\n";
+
+		csv_out.close();
 	}
 };
 #endif

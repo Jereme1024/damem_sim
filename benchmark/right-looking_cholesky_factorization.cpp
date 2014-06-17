@@ -14,10 +14,10 @@
 int main()
 {
 	// DA memory create
-	const int h_mem = 1 * 16 * 32;
-	const int w_mem = 1 * 16 * 32;;
-	const int h_page = 1 * 4;
-	const int w_page = 8 * 4;
+	const int h_mem = 1 * 8 * 32;
+	const int w_mem = 8 * 8 * 32;
+	const int h_page = 1 * 8;
+	const int w_page = 8 * 8;
 	const int h_dataset = 1;
 	const int w_dataset = 8;
 

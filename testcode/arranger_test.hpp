@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cassert>
+#include <fstream>
 
 #include "../include/damemory.hpp"
 #include "../include/arranger.hpp"
@@ -164,8 +165,64 @@ public:
 			std::cout << "\n";
 		}
 		std::cout << "\n";
+	}
 
+	void explore_ds_access(std::string filename = "explore_ds.csv")
+	{
+		config2d c_page = {1, 4096};
 
+		Arranger *arranger[3];
+		arranger[0] = new Arranger_padding();
+		arranger[1] = new Arranger_concatenating();
+		arranger[2] = new Arranger_hyperpadding();
+
+		std::ofstream csv_out(filename);
+		if (csv_out.is_open() == false)
+		{
+			std::cerr << "Csv file open failed!\n";
+			exit(-1);
+		}
+
+		const int test_time = 100;
+		const int max_data = 32;
+
+		csv_out << "policy,dataset";
+		for (int size_data = 1; size_data <= max_data; size_data++)
+		{
+			csv_out << "," << size_data;
+		}
+		csv_out << "\n";
+
+		std::vector<int> size_dataset = {2, 4, 8, 16, 32};
+		for (int ds = 0; ds < size_dataset.size(); ds++)
+		{
+			//std::cout << "[[ " << arranger[a]->get_name() << " dataset size: " << size_dataset[ds] << " ]]\n";
+			for (int a = 0; a < 3; a++)
+			{
+				csv_out << arranger[a]->get_name();
+				csv_out << "," << size_dataset[ds];
+
+				config2d c_dataset = {1, size_dataset[ds]};
+				arranger[a]->set_config_page(c_page);
+				arranger[a]->set_config_dataset(c_dataset);
+
+				for (int size_data = 1; size_data <= max_data; size_data++)
+				{
+					int cnt_access = 0;
+					//std::cout << "[ data size: " << size_data << " ]\n";
+
+					for (int i = 0; i < test_time; i++)
+						cnt_access += arranger[a]->get_cnt_access(0, i, size_data);
+
+					double avg_cnt_access = (double)cnt_access / test_time;
+					//std::cout << arranger[a]->get_name() << " avg : " << avg_cnt_access << "\n";
+					csv_out << "," << avg_cnt_access;
+				}
+				csv_out << "\n";
+			}
+		}
+
+		csv_out.close();
 	}
 };
 

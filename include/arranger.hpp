@@ -17,6 +17,21 @@ public:
 		, config_page_(c_page)
 	{}
 
+	Arranger()
+		: config_dataset_(0, 0)
+		, config_page_(0, 0)
+	{}
+
+	void set_config_dataset(config2d c_dataset)
+	{
+		config_dataset_ = c_dataset;
+	}
+
+	void set_config_page(config2d c_page)
+	{
+		config_page_ = c_page;
+	}
+
 	int get_dataset_height() const
 	{
 		return config_dataset_.height;
@@ -71,6 +86,10 @@ public:
 		: Arranger(c_dataset, c_page)
 	{}
 
+	Arranger_padding()
+		: Arranger()
+	{}
+
 	int get_num_w_data_per_page(int size_data)
 	{
 		const int num_dataset_per_data = (int)std::ceil((double)size_data / get_dataset_width());
@@ -95,6 +114,10 @@ class Arranger_concatenating : public Arranger
 public:
 	Arranger_concatenating(config2d &c_dataset, config2d &c_page)
 		: Arranger(c_dataset, c_page)
+	{}
+
+	Arranger_concatenating()
+		: Arranger()
 	{}
 
 	int get_num_w_data_per_page(int size_data)
@@ -130,6 +153,10 @@ class Arranger_hyperpadding : public Arranger
 public:
 	Arranger_hyperpadding(config2d &c_dataset, config2d &c_page)
 		: Arranger(c_dataset, c_page)
+	{}
+
+	Arranger_hyperpadding()
+		: Arranger()
 	{}
 
 	int get_num_w_data_per_page(int size_data)
