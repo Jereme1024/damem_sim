@@ -60,11 +60,11 @@ public:
 		//}
 		//page->second->is_used_ = true;
 
-		if (pages_.find(name) == pages_.end())
-		{
-			std::cerr << "This data named " << name << " is not exist!\n";
-			return;
-		}
+		//if (pages_.find(name) == pages_.end())
+		//{
+		//	std::cerr << "This data named " << name << " is not exist!\n";
+		//	return;
+		//}
 
 		cnt_access_ += 1;
 

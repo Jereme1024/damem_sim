@@ -119,7 +119,7 @@ public:
 		const int px = get_page_x(x, size_data);
 
 		page_manager_.access(prefix, py, px);
-		cnt_dataset_access_ += arranger_.get_cnt_access(y, x, size_data);
+		//cnt_dataset_access_ += arranger_.get_cnt_access(y, x, size_data);
 	}
 
 	int get_page_y(const int y, const int size_data)

@@ -167,6 +167,58 @@ public:
 		std::cout << "\n";
 	}
 
+	void explore_pw(std::string filename = "explore_pw.csv")
+	{
+		config2d c_page = {1, 128};
+
+		Arranger *arranger[3];
+		arranger[0] = new Arranger_padding();
+		arranger[1] = new Arranger_concatenating();
+		arranger[2] = new Arranger_hyperpadding();
+
+		std::ofstream csv_out(filename);
+		if (csv_out.is_open() == false)
+		{
+			std::cerr << "Csv file open failed!\n";
+			exit(-1);
+		}
+
+		const int test_time = 100;
+		const int max_data = 32;
+
+		csv_out << "policy,p_w";
+		for (int size_data = 1; size_data <= max_data; size_data++)
+		{
+			csv_out << "," << size_data;
+		}
+		csv_out << "\n";
+
+		std::vector<int> size_dataset = {2, 4, 8, 16, 32};
+		for (int ds = 0; ds < size_dataset.size(); ds++)
+		{
+			//std::cout << "[[ " << arranger[a]->get_name() << " dataset size: " << size_dataset[ds] << " ]]\n";
+			for (int a = 0; a < 3; a++)
+			{
+				csv_out << arranger[a]->get_name();
+				csv_out << "," << size_dataset[ds];
+
+				config2d c_dataset = {1, size_dataset[ds]};
+				arranger[a]->set_config_page(c_page);
+				arranger[a]->set_config_dataset(c_dataset);
+
+				for (int size_data = 1; size_data <= max_data; size_data++)
+				{
+					//std::cout << arranger[a]->get_name() << " avg : " << avg_cnt_access << "\n";
+					csv_out << "," << arranger[a]->get_num_w_data_per_page(size_data);
+ 
+				}
+				csv_out << "\n";
+			}
+		}
+
+		csv_out.close();
+	}
+
 	void explore_ds_access(std::string filename = "explore_ds.csv")
 	{
 		config2d c_page = {1, 4096};
