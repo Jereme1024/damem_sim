@@ -50,7 +50,8 @@ public:
 		// sched: 3 4
 		lru.evict_one();
 		// sched: 3
-		assert (lru.is_hit(page[3]) && !lru.is_hit(page[4]));
+		assert (lru.is_hit(page[3]));
+		assert (!lru.is_hit(page[4]));
 		std::cerr << "...PASS\n";
 	}
 

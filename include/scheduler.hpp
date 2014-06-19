@@ -1,6 +1,9 @@
 #ifndef __SCHEDULER_HPP__
 #define __SCHEDULER_HPP__
 
+#include <list>
+#include <unordered_map>
+
 template <class Struct_type>
 class Scheduler
 {
@@ -24,10 +27,13 @@ private:
 
 	typedef decltype(bookkeeping_.begin()) It_type_book;
 
+	std::unordered_map<void *, It_type_book> lookup_bookkeeping_;
+
 public:
 	Scheduler_LRU(const int max_size)
 		: max_size_(max_size)
 		, bookkeeping_()
+		, lookup_bookkeeping_()
 	{}
 
 	bool is_full()
@@ -37,25 +43,39 @@ public:
 
 	bool is_hit(Struct_type *page)
 	{
-		auto it = std::find(bookkeeping_.begin(), bookkeeping_.end(), page);
-
-		if (it != bookkeeping_.end())
+		auto lookup = lookup_bookkeeping_.find((void *)page);
+		if (lookup == lookup_bookkeeping_.end())
 		{
+			return false;
+		}
+		else
+		{
+			auto it = lookup->second;
 			update(page, it);
 
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+
+		//auto it = std::find(bookkeeping_.begin(), bookkeeping_.end(), page);
+
+		//if (it != bookkeeping_.end())
+		//{
+		//	update(page, it);
+
+		//	return true;
+		//}
+		//else
+		//{
+		//	return false;
+		//}
 	}
 
 	// In LRU, this will be called after is_hit(...)
 	inline void update(Struct_type *page, It_type_book it)
 	{
 		off_schedule(it);
-		bookkeeping_.push_front(page); // Do same thing as on_schedule but faster without checking size
+
+		new_schedule(page);
 	}
 
 	void on_schedule(Struct_type *page)
@@ -64,22 +84,32 @@ public:
 		{
 			evict_one();
 		}
+
+		new_schedule(page);
+	}
+
+	inline void new_schedule(Struct_type *page)
+	{
 		bookkeeping_.push_front(page);
+		lookup_bookkeeping_.insert(std::make_pair<void *, It_type_book>((void *)page, bookkeeping_.begin()));
 	}
 
 	void off_schedule(Struct_type *page)
 	{
-		bookkeeping_.remove(page);
+		auto it = std::find(bookkeeping_.begin(), bookkeeping_.end(), page);
+		off_schedule(it);
 	}
 
 	inline void off_schedule(It_type_book it)
 	{
+		lookup_bookkeeping_.erase((void *)*it);
 		bookkeeping_.erase(it);
 	}
 
 	void evict_one()
 	{
-		bookkeeping_.pop_back();
+		auto last_one = bookkeeping_.end();
+		off_schedule(--last_one);
 	}
 
 	int get_size()

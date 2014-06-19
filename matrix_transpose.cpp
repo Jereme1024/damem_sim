@@ -10,8 +10,8 @@ template <class Data_type>
 void transpose(Matrix<Data_type> &ma, Matrix<Data_type> &mb)
 {
 	// DA memory create
-	const int h_mem = 32 * 32 * 32;
-	const int w_mem = 32 * 32 * 32;;
+	const int h_mem = 1 * 32 * 32;
+	const int w_mem = 1 * 32 * 32;;
 	const int h_page = 1 * 16;
 	const int w_page = 4 * 32;
 	const int h_dataset = 1;
