@@ -10,11 +10,9 @@
 struct Page
 {
 	std::string name_;
-	//bool is_used_;
 
 	Page(std::string name)
 		: name_(name)
-		//, is_used_(false)
 	{}
 
 	~Page()
@@ -51,20 +49,6 @@ public:
 	void access(std::string prefix, int h, int w)
 	{
 		auto name = name_encoding(prefix, h, w);
-		
-		//auto page = pages_.find(name);
-		//if (page == pages_.end())
-		//{
-		//	std::cerr << "This data named " << name << " is not exist!\n";
-		//	return;
-		//}
-		//page->second->is_used_ = true;
-
-		//if (pages_.find(name) == pages_.end())
-		//{
-		//	std::cerr << "This data named " << name << " is not exist!\n";
-		//	return;
-		//}
 
 		cnt_access_ += 1;
 
@@ -92,18 +76,6 @@ public:
 	{
 		return pages_.size();
 	}
-
-	//int get_cnt_nouse()
-	//{
-	//	int cnt = 0;
-	//	for (auto it = pages_.begin(); it != pages_.end(); it++)
-	//	{
-	//		if (it->second->is_used_ == false)
-	//			cnt++;
-	//	}
-
-	//	return cnt;
-	//}
 
 	std::string name_encoding(std::string &prefix, int h, int w)
 	{
@@ -140,8 +112,6 @@ public:
 
 	void allocate(std::string prefix_name, int num_row, int num_col)
 	{
-		//const int num_total = num_row * num_col; // depredcated
-
 		for (int r = 0; r < num_row; r++)
 		{
 			for (int c = 0; c < num_col; c++)
@@ -180,11 +150,6 @@ public:
 	{
 		return page_scheduler_->get_size();
 	}
-
-	//int get_cnt_nouse()
-	//{
-	//	return page_reposity_.get_cnt_nouse();
-	//}
 
 	char *get_scheduler_name()
 	{
