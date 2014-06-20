@@ -11,15 +11,34 @@
 
 #include "include/damemory.hpp"
 
-int main()
+int WIDTH, sqrtWIDTH;
+
+int main(int argc, char *argv[])
 {
 	// DA memory create
-	const int h_mem = 1 * 16 * 32;
-	const int w_mem = 1 * 16 * 32;
-	const int h_page = 1 * 16;
-	const int w_page = 4 * 16;
-	const int h_dataset = 1;
-	const int w_dataset = 8;
+	const int h_mem = atoi(argv[1]);
+	const int w_mem = atoi(argv[2]);
+	const int h_page = atoi(argv[3]);
+	const int w_page = atoi(argv[4]);
+	const int h_dataset = atoi(argv[5]);
+	const int w_dataset = atoi(argv[6]);
+
+	WIDTH = atoi(argv[7]);
+	sqrtWIDTH = sqrt(WIDTH);
+
+	//const int h_mem = 4 * 2 * 32;
+	//const int w_mem = 4 * 16 * 32;
+	//const int h_page = 1 * 16;
+	//const int w_page = 8 * 16;
+	//const int h_dataset = 1;
+	//const int w_dataset = 8;
+
+	//const int h_mem = 1 * 16 * 32;
+	//const int w_mem = 1 * 16 * 32;
+	//const int h_page = 1 * 16;
+	//const int w_page = 4 * 16;
+	//const int h_dataset = 1;
+	//const int w_dataset = 8;
 	//const int h_mem = 1 * 16 * 32;
 	//const int w_mem = 1 * 16 * 32;
 	//const int h_page = 1 * 4;

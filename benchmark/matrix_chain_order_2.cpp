@@ -13,6 +13,8 @@
 
 #include "include/damemory.hpp"
 
+int WIDTH, sqrtWIDTH;
+
 void print(int *s, int i, int j) 
 { 
 	if (i == j) 
@@ -39,15 +41,16 @@ void printm(int *m, int n)
 	printf("\nThe No. of multiplication required is : %d",m[1*WIDTH+n]); 
 } 
 
-void Matrix_Chain_Order(int p[],int num) 
+void Matrix_Chain_Order(int argc, char *argv[], int p[],int num) 
 { 
 	// DA memory create
-	const int h_mem = 1 * 16 * 32;
-	const int w_mem = 1 * 16 * 32;
-	const int h_page = 1 * 16;
-	const int w_page = 4 * 16;
-	const int h_dataset = 1;
-	const int w_dataset = 8;
+	const int h_mem = atoi(argv[1]);
+	const int w_mem = atoi(argv[2]);
+	const int h_page = atoi(argv[3]);
+	const int w_page = atoi(argv[4]);
+	const int h_dataset = atoi(argv[5]);
+	const int w_dataset = atoi(argv[6]);
+
 
 	// POLICY = (Arranger_padding | Arranger_concatenating | Arranger_hyperpadding)
 	DAmemory<POLICY, Scheduler_LRU> damemory(h_mem, w_mem, h_page, w_page, h_dataset, w_dataset);
@@ -161,11 +164,15 @@ void Matrix_Chain_Order(int p[],int num)
 } 
 
 
-int main() 
+int main(int argc, char *argv[])
 { 
+	WIDTH = atoi(argv[7]);
+	sqrtWIDTH = sqrt(WIDTH);
+
 	int i;
 	int num=WIDTH-1;
-	int p[WIDTH]={0}; 
+	//int p[WIDTH]={0}; 
+	int *p = new int[WIDTH];
 	srand(time(0));
 	for(i=0;i<=num;i++) 
 		p[i] = (rand()%MAX)+1;
@@ -175,7 +182,7 @@ int main()
 		printf("%d ", p[i]);
 	printf("\n");
 #endif
-	Matrix_Chain_Order(p,num); 
+	Matrix_Chain_Order(argc, argv, p,num); 
 	return 0;
 }
 

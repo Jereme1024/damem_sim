@@ -18,24 +18,30 @@
 #endif
 #define n WIDTH-1
 
+int WIDTH, sqrtWIDTH;
 
-int main()
+int main(int argc, char *argv[])
 {
 	// DA memory create
-	const int h_mem = 1 * 16 * 32;
-	const int w_mem = 1 * 16 * 32;
-	const int h_page = 1 * 16;
-	const int w_page = 4 * 16;
-	const int h_dataset = 1;
-	const int w_dataset = 8;
+	const int h_mem = atoi(argv[1]);
+	const int w_mem = atoi(argv[2]);
+	const int h_page = atoi(argv[3]);
+	const int w_page = atoi(argv[4]);
+	const int h_dataset = atoi(argv[5]);
+	const int w_dataset = atoi(argv[6]);
+
+	WIDTH = atoi(argv[7]);
+	sqrtWIDTH = sqrt(WIDTH);
 
 	// POLICY = (Arranger_padding | Arranger_concatenating | Arranger_hyperpadding)
 	DAmemory<POLICY, Scheduler_LRU> damemory(h_mem, w_mem, h_page, w_page, h_dataset, w_dataset);
 
 	int i, j, l, r;
 	float t;
-	float p[WIDTH] = {0, 0.15, 0.1, 0.05, 0.1, 0.2};
-	float q[WIDTH] = {0.05, 0.1, 0.05, 0.05, 0.05, 0.1};
+	//float p[WIDTH] = {0, 0.15, 0.1, 0.05, 0.1, 0.2};
+	//float q[WIDTH] = {0.05, 0.1, 0.05, 0.05, 0.05, 0.1};
+	float *p = new float[WIDTH];
+	float *q = new float[WIDTH];
 	int *root;
 	float *e;
 	float *w;

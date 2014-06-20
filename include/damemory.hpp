@@ -139,12 +139,12 @@ public:
 		typedef std::pair<std::string, int> sip;
 		std::vector<sip> csv_in;
 
-		const int total_mem = config_da_mem_.height * config_da_mem_.width / 1024 / 1024;
+		const int total_mem = config_da_mem_.height * config_da_mem_.width / 1024;
 		const int each_page = config_da_page_.height * config_da_page_.width;
 		const int total_page = each_page * page_manager_.get_num_page();
 
 		std::cout << "[ DA memory " << config_da_mem_.height << " B x " << config_da_mem_.width << " B, "
-				  << total_mem * 1024 << " KB " << total_mem << " MB ]\n";
+				  << total_mem << " KB " << (total_mem / 1024) << " MB ]\n";
 		std::cout << "= Configuration =\n";
 		std::cout << "Page size: " << config_da_page_.height << " B x " << config_da_page_.width << " B\n";
 		std::cout << "Dataset size: " << config_da_dataset_.height << " B x " << config_da_dataset_.width << " B\n";
