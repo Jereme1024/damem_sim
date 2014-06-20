@@ -1,34 +1,24 @@
-#ifndef __DAMEMORY_HPP__
-#define __DAMEMORY_HPP__
+#ifndef __D1MEMORY_HPP__
+#define __D1MEMORY_HPP__
 
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <list>
-#include <string>
-#include <map>
-#include <cmath>
-#include <algorithm>
+// This code is used for simulating the 1d memory based on DAmemory.
+// Alought it can achive this intention by using template specialization,
+// it is a little dirty upon the archtecture of code. (da memory is not suitable to 1d memory)
+// It will need to be refactoried someday :)
 
-#include "config2d.hpp"
-#include "page.hpp"
-#include "scheduler.hpp"
-#include "arranger.hpp"
+#include "damemory.hpp"
 
-template<class Arranger_type, template <class> class Scheduler_type>
-class DAmemory;
-
-template<class Arranger_type, template <class> class Scheduler_type>
-class DAmemory_control_block
+template<template <class> class Scheduler_type>
+class DAmemory_control_block<Arranger_one_dim, Scheduler_type>
 {
 public:
-	DAmemory<Arranger_type, Scheduler_type> *damemory_;
+	DAmemory<Arranger_one_dim, Scheduler_type> *damemory_;
 	std::string prefix_;
 	config2d config_size_;
 	const int size_data_;
 	
 public:
-	DAmemory_control_block(DAmemory<Arranger_type, Scheduler_type> *damemory, std::string prefix, int h, int w, int size_data)
+	DAmemory_control_block(DAmemory<Arranger_one_dim, Scheduler_type> *damemory, std::string prefix, int h, int w, int size_data)
 		: damemory_(damemory)
 		, prefix_(prefix)
 		, config_size_(h, w)
@@ -49,7 +39,9 @@ public:
 			std::cerr << "Out of memory access!\n";
 		}
 
-		damemory_->access(prefix_, y, x, size_data_);
+		int index = y * config_size_.width + x;
+
+		damemory_->access(prefix_, 0, index, size_data_);
 	}
 
 	void load(int y, int x)
@@ -59,29 +51,31 @@ public:
 			std::cerr << "Out of memory access!\n";
 		}
 
-		damemory_->access(prefix_, y, x, size_data_);
+		int index = y * config_size_.width + x;
+
+		damemory_->access(prefix_, 0, index, size_data_);
 	}
 };
 
 
-template<class Arranger_type, template <class> class Scheduler_type>
-class DAmemory
+template<template <class> class Scheduler_type>
+class DAmemory<Arranger_one_dim, Scheduler_type>
 {
 private:
 	config2d config_da_mem_;
 	config2d config_da_page_;
 	config2d config_da_dataset_;
-	Arranger_type arranger_;
+	Arranger_one_dim arranger_;
 	Page_manager<Scheduler_type> page_manager_;
 	int total_data_size_;
 	int cnt_dataset_access_;
 
-	typedef DAmemory_control_block<Arranger_type, Scheduler_type> DAmcb;
+	typedef DAmemory_control_block<Arranger_one_dim, Scheduler_type> DAmcb;
 
 public:
 	DAmemory(int h_mem, int w_mem, int h_page, int w_page, int h_dataset, int w_dataset)
-		: config_da_mem_(h_mem, w_mem)
-		, config_da_page_(h_page, w_page)
+		: config_da_mem_(1, h_mem * w_mem)
+		, config_da_page_(1, h_page * w_page)
 		, config_da_dataset_(h_dataset, w_dataset)
 		, arranger_(config_da_dataset_, config_da_page_)
 		, page_manager_(h_mem / h_page, w_mem / w_page) // #height, #width
@@ -90,8 +84,8 @@ public:
 	{}
 
 	DAmemory(config2d &mem, config2d &page, config2d &dataset)
-		: config_da_mem_(mem)
-		, config_da_page_(page)
+		: config_da_mem_(1, mem.height * mem.width)
+		, config_da_page_(1, page.height * page.width)
 		, config_da_dataset_(dataset)
 		, arranger_(config_da_dataset_, config_da_page_)
 		, page_manager_(mem.height / page.height, mem.width / page.height)
@@ -103,8 +97,8 @@ public:
 	{
 		total_data_size_ += h * w * size_data;
 		
-		const int num_h = arranger_.get_num_h_page_per_data2d(h, size_data);
-		const int num_w = arranger_.get_num_w_page_per_data2d(w, size_data);
+		const int num_h = arranger_.get_num_h_page_per_data2d(1, size_data);
+		const int num_w = arranger_.get_num_w_page_per_data2d(w * h, size_data);
 
 		page_manager_.allocate(prefix, num_h, num_w);
 		
@@ -204,7 +198,4 @@ public:
 		csv_out.close();
 	}
 };
-
-#include "d1memory.hpp"
-
 #endif

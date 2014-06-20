@@ -1,4 +1,4 @@
-dirs="padding concatenating"
+dirs="padding concatenating one_dim"
 files="mul.csv lu.csv chain.csv optimal.csv right.csv left.csv wco.csv wde.csv"
 
 for dir in $dirs

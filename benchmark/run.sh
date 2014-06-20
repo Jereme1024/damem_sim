@@ -3,7 +3,7 @@ EXEC="transpose multiplex lu_decomposition matrix_chain_order optimal_bst right-
 #EXEC="right-looking_cholesky_factorization left-looking_cholesky_factorization"
 
 #DIRS="padding concatenating hyperpadding"
-DIRS="padding concatenating"
+DIRS="padding concatenating one_dim"
 
 #H_MEM="64"
 #W_MEM="256"
@@ -21,8 +21,16 @@ W_PAGE="32"
 H_DS="1"
 W_DS="8"
 
-WIDTH="300"
+WIDTH="500"
 
+#H_MEM="1"
+#W_MEM="65536"
+#H_PAGE="1"
+#W_PAGE="128"
+#H_DS="1"
+#W_DS="8"
+#
+#WIDTH="500"
 
 for DIR in $DIRS
 do

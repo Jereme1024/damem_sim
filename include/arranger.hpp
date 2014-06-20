@@ -187,4 +187,21 @@ public:
 	}
 };
 
+class Arranger_one_dim : public Arranger_concatenating
+{
+public:
+	Arranger_one_dim(config2d &c_dataset, config2d &c_page)
+		: Arranger_concatenating(c_dataset, c_page)
+	{}
+
+	Arranger_one_dim()
+		: Arranger_concatenating()
+	{}
+
+	char *get_name()
+	{
+		return (char *)"one_dim";
+	}
+};
+
 #endif

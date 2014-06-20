@@ -19,6 +19,7 @@ public:
 		Arranger *arranger_padding = new Arranger_padding(c_dataset, c_page);
 		Arranger *arranger_concatenating = new Arranger_concatenating(c_dataset, c_page);
 		Arranger *arranger_hyperpadding = new Arranger_hyperpadding(c_dataset, c_page);
+		Arranger *arranger_one_dim = new Arranger_one_dim(c_dataset, c_page);
 
 		std::cout << "ds_height = " << arranger_padding->get_dataset_height() << "\n";
 		std::cout << "ds_width = " << arranger_padding->get_dataset_width() << "\n";
@@ -56,6 +57,22 @@ public:
 		dataset_access_count_test(0, 7, 9, arranger_concatenating, 2);
 		// size_data 17 (0, 2) in 2 page 0 ds 3 access
 		dataset_access_count_test(0, 2, 17, arranger_concatenating, 3);
+
+		// {[8][8][8][8]} each row, eight row totally
+		//
+		// one_dim
+		// size_data 3 (0, 2) in 0 page 0 ds 2 access
+		dataset_access_count_test(0, 2, 3, arranger_one_dim, 2);
+		// size_data 4 (0, 2) in 0 page 1 ds 1 access
+		dataset_access_count_test(0, 2, 4, arranger_one_dim, 1);
+		// size_data 8 (0, 2) in 0 page 2 ds 1 access
+		dataset_access_count_test(0, 2, 8, arranger_one_dim, 1);
+		// size_data 9 (0, 2) in 0 page 3 ds 2 access
+		dataset_access_count_test(0, 2, 9, arranger_one_dim, 2);
+		// size_data 9 (0, 7) in 2 page 1 ds 2 access
+		dataset_access_count_test(0, 7, 9, arranger_one_dim, 2);
+		// size_data 17 (0, 2) in 2 page 0 ds 3 access
+		dataset_access_count_test(0, 2, 17, arranger_one_dim, 3);
 
 		// {[8][8][8][8]} each row, eight row totally
 		//
