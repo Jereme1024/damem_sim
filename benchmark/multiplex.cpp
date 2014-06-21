@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 	const int w_dataset = atoi(argv[6]);
 
 	WIDTH = atoi(argv[7]);
-	WIDTH = WIDTH / 2;
+	WIDTH = WIDTH;
 	sqrtWIDTH = sqrt(WIDTH);
 
 	// POLICY = (Arranger_padding | Arranger_concatenating | Arranger_hyperpadding)

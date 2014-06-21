@@ -1,27 +1,28 @@
-EXEC="transpose multiplex lu_decomposition matrix_chain_order optimal_bst right-looking_cholesky_factorization left-looking_cholesky_factorization wavelet_image_compression wavelet_image_decompression"
+#EXEC="transpose multiplex lu_decomposition matrix_chain_order optimal_bst right-looking_cholesky_factorization left-looking_cholesky_factorization wavelet_image_compression wavelet_image_decompression"
 #EXEC="transpose lu_decomposition matrix_chain_order optimal_bst right-looking_cholesky_factorization left-looking_cholesky_factorization wavelet_image_compression wavelet_image_decompression"
-#EXEC="right-looking_cholesky_factorization left-looking_cholesky_factorization"
+EXEC="multiplex"
 
 #DIRS="padding concatenating hyperpadding"
+#DIRS="padding concatenating one_dim"
 DIRS="padding concatenating one_dim"
 
-#H_MEM="64"
-#W_MEM="256"
-#H_PAGE="2"
-#W_PAGE="16"
-#H_DS="1"
-#W_DS="8"
-#
-#WIDTH="150"
-
-H_MEM="256"
-W_MEM="256"
-H_PAGE="4"
-W_PAGE="32"
+H_MEM="512"
+W_MEM="512"
+H_PAGE="8"
+W_PAGE="64"
 H_DS="1"
 W_DS="8"
 
-WIDTH="500"
+WIDTH="550"
+
+#H_MEM="256"
+#W_MEM="256"
+#H_PAGE="4"
+#W_PAGE="32"
+#H_DS="1"
+#W_DS="8"
+#
+#WIDTH="500"
 
 #H_MEM="1"
 #W_MEM="65536"
