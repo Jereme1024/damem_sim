@@ -14,7 +14,7 @@ public:
 	void main()
 	{
 		config2d c_dataset = {1, 8};
-		config2d c_page = {8, 32};
+		config2d c_page = {8, 64};
 
 		Arranger *arranger_padding = new Arranger_padding(c_dataset, c_page);
 		Arranger *arranger_concatenating = new Arranger_concatenating(c_dataset, c_page);
@@ -186,7 +186,8 @@ public:
 
 	void explore_pw(std::string filename = "explore_pw.csv")
 	{
-		config2d c_page = {1, 128};
+		//config2d c_page = {1, 128};
+		config2d c_page = {1, 64};
 
 		Arranger *arranger[3];
 		arranger[0] = new Arranger_padding();
